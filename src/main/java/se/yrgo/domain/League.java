@@ -35,6 +35,15 @@ public class League {
         return this.name;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void addTeam(Team team) {
+        teams.add(team);
+        team.setLeague(this);
+    }
+
     @Override
     public String toString() {
         return "League{" +

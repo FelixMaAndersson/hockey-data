@@ -1,7 +1,8 @@
 package se.yrgo.dataaccess;
 
 import se.yrgo.domain.League;
-import se.yrgo.domain.Player;
+import se.yrgo.domain.Team;
+import se.yrgo.exceptions.LeagueNotFoundException;
 
 import java.util.List;
 
@@ -9,15 +10,15 @@ public interface LeagueDao {
 
     public void create(League league);
 
-    public League getById(String leagueId) throws RecordNotFoundException;
+    public League getById(int leagueId) throws LeagueNotFoundException;
 
-    public List<League> getByName(String name);
+    public League getByName(String name) throws LeagueNotFoundException;
 
-    public void update(League league) throws RecordNotFoundException;
+    public void update(League league) throws LeagueNotFoundException;
 
-    public void delete(League oldleague) throws RecordNotFoundException;
+    public void delete(League league) throws LeagueNotFoundException;
 
     public List<League> getAllLeagues();
 
-    public League getFullLeagueDetail(String playerId) throws RecordNotFoundException;
+    public List<Team> getAllTeams(int leagueId) throws LeagueNotFoundException;
 }
