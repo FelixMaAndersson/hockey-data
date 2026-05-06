@@ -11,13 +11,14 @@ public class Player {
     private String position;
     private String jerseyNr; // should this be an int?
     private String captain; // in teams?
+    private int salary;
     private int refereeHeckling;
     private int beerChugging;
     private int diving;
     private int game;
     private int snusing;
     private int swag;
-    private int salary;
+    private int nameCalling;
 
 	// needed for JPA - ignore until then
 	public Player() {}
