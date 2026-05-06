@@ -22,3 +22,4 @@ public interface TeamDao {
 
     List<Player> getAllPlayers(long teamId) throws TeamNotFoundException;
 }
+

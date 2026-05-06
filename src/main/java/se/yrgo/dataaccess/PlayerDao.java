@@ -3,21 +3,16 @@ package se.yrgo.dataaccess;
 import java.util.List;
 
 import se.yrgo.domain.Player;
+import se.yrgo.exceptions.PlayerNotFoundException;
 
 public interface PlayerDao {
+    void create(Player player);
 
-	public void create(Player player);
+    Player getById(String playerId) throws PlayerNotFoundException;
 
-	public Player getById(String playerId) throws RecordNotFoundException;
+    List<Player> getAllPlayers();
 
-	public List<Player> getByName(String name);
+    void update(Player player) throws PlayerNotFoundException;
 
-	public void update(Player playerToUpdate) throws RecordNotFoundException;
-
-	public void delete(Player oldPlayer) throws RecordNotFoundException;
-
-	public List<Player> getAllPlayers();
-
-	public Player getFullPlayerDetail(String playerId) throws RecordNotFoundException;
-
+    void delete(Player player) throws PlayerNotFoundException;
 }
