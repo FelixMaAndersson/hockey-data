@@ -2,37 +2,73 @@ package se.yrgo.domain;
 
 import jakarta.persistence.*;
 
-import java.util.Calendar;
-
-
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 public class Team {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Long id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "league_id")
-	private League league;
+    private String name;
 
-	private String name;
+    @ManyToOne
+    @JoinColumn(name = "league_id")
+    private League league;
 
-	public Team() {}
+    @ManyToMany
+    @JoinTable(
+            name = "TEAM_PLAYER",
+            joinColumns = @JoinColumn(name = "TEAM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PLAYER_ID")
+    )
+    private List<Player> players = new ArrayList<>();
 
-	public Team(String name) {
-		this.name = name;
-	}
+    public Team() {}
 
-	public Long getId() {
-		return id;
-	}
+    public Team(String name) {
+        this.name = name;
+    }
 
-	public void setLeague(League league) {
-		this.league = league;
-		if (!league.getTeams().contains(this)) {
-			league.getTeams().add(this);
-		}
-	}
+    public Long getId() {
+        return id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public List<Player> getPlayers() {
+        return players;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+
+        if (league != null && !league.getTeams().contains(this)) {
+            league.getTeams().add(this);
+        }
+    }
+
+    public void addPlayer(Player player) {
+        players.add(player);
+    }
+
+    @Override
+    public String toString() {
+        return "Team{" +
+                "name='" + name + '\'' +
+                ", players=" + players +
+                '}';
+    }
 }
