@@ -29,7 +29,10 @@ public class Team {
 		return id;
 	}
 
-	public void setId(Long id) {
-		this.id = id;
+	public void setLeague(League league) {
+		this.league = league;
+		if (!league.getTeams().contains(this)) {
+			league.getTeams().add(this);
+		}
 	}
 }
