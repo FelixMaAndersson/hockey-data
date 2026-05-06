@@ -18,7 +18,6 @@ public interface PlayerDao {
 
 	public List<Player> getAllPlayers();
 
-
 	public Player getFullPlayerDetail(String playerId) throws RecordNotFoundException;
 
 }
