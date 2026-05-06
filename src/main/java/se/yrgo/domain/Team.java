@@ -1,6 +1,7 @@
 package se.yrgo.domain;
 
 import jakarta.persistence.*;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +19,11 @@ public class Team {
     private League league;
 
     @ManyToMany
+    @JoinTable(
+            name = "TEAM_PLAYER",
+            joinColumns = @JoinColumn(name = "TEAM_ID"),
+            inverseJoinColumns = @JoinColumn(name = "PLAYER_ID")
+    )
     private List<Player> players = new ArrayList<>();
 
     public Team() {}
@@ -46,9 +52,9 @@ public class Team {
         this.name = name;
     }
 
-    // 🔥 Behåll kollegans logik
     public void setLeague(League league) {
         this.league = league;
+
         if (league != null && !league.getTeams().contains(this)) {
             league.getTeams().add(this);
         }
