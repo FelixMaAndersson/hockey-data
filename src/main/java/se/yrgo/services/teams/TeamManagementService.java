@@ -4,6 +4,7 @@ import se.yrgo.dataaccess.TeamDao;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
 import se.yrgo.domain.Team;
+import se.yrgo.exceptions.TeamNotFoundException;
 
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class TeamManagementService {
         this.teamDao = teamDao;
     }
 
-    public void addPlayerToTeam(Team team, Player player) {
+    public void addPlayerToTeam(Team team, Player player) throws TeamNotFoundException {
 
         List<Player> players = team.getPlayers();
 
@@ -46,7 +47,6 @@ public class TeamManagementService {
 
         Position pos = player.getPosition();
 
-        // 3 forwards totalt (CENTER + wings)
         long totalForwards = centers + leftWings + rightWings;
 
         if ((pos == Position.CENTER || pos == Position.LEFT_WING || pos == Position.RIGHT_WING)
