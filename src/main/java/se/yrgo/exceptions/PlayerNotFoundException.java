@@ -1,6 +1,6 @@
-package se.yrgo.dataaccess;
+package se.yrgo.exceptions;
 
-public class RecordNotFoundException extends Exception {
+public class PlayerNotFoundException extends Exception {
 
 	/**
 	 * Just to stop warnings.

@@ -1,12 +1,11 @@
 package se.yrgo.dataaccess;
 
-import java.util.List;
-
 import se.yrgo.domain.Team;
+import se.yrgo.exceptions.PlayerNotFoundException;
 
 public interface TeamDao {
 	public void create(Team newTeam);
 	// public List<Team> getIncompleteTeams(String userId);
-	public void update(Team teamToUpdate) throws RecordNotFoundException;
-	public void delete(Team oldTeam) throws RecordNotFoundException;
+	public void update(Team teamToUpdate) throws PlayerNotFoundException;
+	public void delete(Team oldTeam) throws PlayerNotFoundException;
 }
