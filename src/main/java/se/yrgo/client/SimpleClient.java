@@ -30,16 +30,7 @@ public class SimpleClient {
         TeamManagementService teamService = ctx.getBean(TeamManagementService.class);
 
         leagueService.createLeague("NHL");
-        playerService.createPlayer(
-                "Gustav Olsson",
-                Position.CENTER,
-                91,
-                7,   // refereeHeckling
-                9,   // beerChugging
-                3,   // diving
-                10,  // swag
-                8    // snusing
-        );
+        playerService.createPlayer("Felix Andersson", Position.DEFENDER, 98, 95, 76, 56, 83, 22 );
 
         teamService.createTeam("Frölunda");
 
