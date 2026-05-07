@@ -22,4 +22,6 @@ public interface PlayerDao {
     List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary);
 
     List<Player> getBySalary(int salary) throws PlayerNotFoundException;
+
+    List<Player> getPlayerByName(String name);
 }
