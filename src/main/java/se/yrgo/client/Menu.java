@@ -43,8 +43,8 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> createMenu();
-                case "2" -> viewMenu();
-                case "3" -> joinLeague();
+//                case "2" -> viewMenu();
+//                case "3" -> joinLeague();
                 case "0" -> System.exit(0);
                 default -> System.out.println("You dumb puck, wrong choice, try again!");
             }
@@ -63,8 +63,8 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> createLeague();
-                case "2" -> createTeam();
-                case "3" -> createPlayer();
+//                case "2" -> createTeam();
+//                case "3" -> createPlayer();
             }
         }
 
@@ -76,7 +76,12 @@ public class Menu {
         String leagueName = input.nextLine().toLowerCase();
         leagueService.createLeague(leagueName);
         System.out.println("League: ´" + leagueName + "´ created!");
+
     }
 
+    public void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
+    }
 
 }
