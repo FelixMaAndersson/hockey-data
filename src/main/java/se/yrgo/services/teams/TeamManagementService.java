@@ -1,5 +1,7 @@
 package se.yrgo.services.teams;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.dataaccess.TeamDao;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
@@ -8,6 +10,8 @@ import se.yrgo.exceptions.TeamNotFoundException;
 
 import java.util.List;
 
+@Service
+@Transactional
 public class TeamManagementService {
 
     private TeamDao teamDao;
