@@ -9,7 +9,7 @@ import se.yrgo.exceptions.PlayerNotFoundException;
 public interface PlayerDao {
     void create(Player player);
 
-    Player getById(String playerId) throws PlayerNotFoundException;
+    Player getById(int playerId) throws PlayerNotFoundException;
 
     List<Player> getAllPlayers();
 

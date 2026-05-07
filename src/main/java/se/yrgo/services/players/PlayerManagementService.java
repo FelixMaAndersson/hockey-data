@@ -41,7 +41,7 @@ public class PlayerManagementService {
     }
 
     @Transactional(readOnly = true)
-    public Player getPlayerById(String playerId) throws PlayerNotFoundException {
+    public Player getPlayerById(int playerId) throws PlayerNotFoundException {
         return dao.getById(playerId);
     }
 
@@ -56,7 +56,7 @@ public class PlayerManagementService {
     }
 
     @Transactional
-    public void deletePlayer(String playerId) throws PlayerNotFoundException {
+    public void deletePlayer(int playerId) throws PlayerNotFoundException {
         Player player = dao.getById(playerId);
         dao.delete(player);
     }
@@ -71,10 +71,10 @@ public class PlayerManagementService {
         return dao.getPlayersBySalaryRange(minSalary, maxSalary);
     }
 
-    @Transactional(readOnly = true)
-    public List<Player> getPlayersBySalary(int salary) throws PlayerNotFoundException {
-        return dao.getBySalary(salary);
-    }
+//    @Transactional(readOnly = true)
+//    public getPlayersBySalaryRange() {
+//        return dao.getPlayersBySalaryRange(minSalary, maxSalary);
+//    }
 
     @Transactional(readOnly = true)
     public List<Player> getPlayerByName(String name) {

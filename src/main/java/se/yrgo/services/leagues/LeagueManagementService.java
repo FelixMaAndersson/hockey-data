@@ -4,11 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.dataaccess.LeagueDao;
-import se.yrgo.dataaccess.LeagueDaoImpl;
 import se.yrgo.domain.League;
 import se.yrgo.domain.Team;
 import se.yrgo.exceptions.LeagueNotFoundException;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
@@ -27,7 +27,7 @@ public class LeagueManagementService {
         dao.create(league);
     }
 
-    public void updateLeague(String oldName, String newName) throws LeagueNotFoundException {
+    public void updateLeagueName(String oldName, String newName) throws LeagueNotFoundException {
         League league = dao.getByName(oldName);
         league.setName(newName);
         dao.update(league);
@@ -55,12 +55,23 @@ public class LeagueManagementService {
         return dao.getAllTeams(league.getId());
     }
 
-    public void addTeamToLeague(String leagueName, String teamName) throws LeagueNotFoundException {
-        League league = dao.getByName(leagueName);
-        Team team = new Team(teamName);
-        league.addTeam(team);
-        dao.update(league);
-    }
+        @Transactional
+        public void addTeamToLeague(String leagueName, String teamName)
+            throws LeagueNotFoundException {
+
+            League league = dao.getByName(leagueName);
+
+            if (league.getTeams().size() >= 10) {
+                System.out.println("A league cannot contain more than 10 teams");
+                return;
+            }
+
+            Team team = new Team(teamName);
+
+            league.addTeam(team);
+
+            dao.update(league);
+        }
 
 
 }

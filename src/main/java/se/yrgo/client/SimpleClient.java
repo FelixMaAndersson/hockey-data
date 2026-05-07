@@ -1,68 +1,52 @@
 package se.yrgo.client;
 
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import se.yrgo.domain.League;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
 import se.yrgo.domain.Team;
+import se.yrgo.exceptions.LeagueNotFoundException;
+import se.yrgo.exceptions.PlayerNotFoundException;
+import se.yrgo.exceptions.TeamNotFoundException;
 import se.yrgo.services.leagues.LeagueManagementService;
 import se.yrgo.services.players.PlayerManagementService;
 import se.yrgo.services.teams.TeamManagementService;
 
+import java.util.List;
+
 public class SimpleClient {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws LeagueNotFoundException, PlayerNotFoundException, TeamNotFoundException {
 
-        try (ClassPathXmlApplicationContext container =
-                     new ClassPathXmlApplicationContext("application.xml")) {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("application.xml");
 
-            LeagueManagementService leagueService =
-                    container.getBean(LeagueManagementService.class);
+//        Menu menu = ctx.getBean(Menu.class);
+//        menu.start();
 
-            TeamManagementService teamService =
-                    container.getBean(TeamManagementService.class);
+        LeagueManagementService leagueService = ctx.getBean(LeagueManagementService.class);
+        PlayerManagementService playerService = ctx.getBean(PlayerManagementService.class);
+        TeamManagementService teamService = ctx.getBean(TeamManagementService.class);
 
-            PlayerManagementService playerService =
-                    container.getBean(PlayerManagementService.class);
+        leagueService.createLeague("NHL");
+        playerService.createPlayer(
+                "Gustav Olsson",
+                Position.CENTER,
+                91,
+                7,   // refereeHeckling
+                9,   // beerChugging
+                3,   // diving
+                10,  // swag
+                8    // snusing
+        );
 
-            // 1. Create league
-            leagueService.createLeague("Snus Hockey League");
+        teamService.createTeam("Frölunda");
 
-            // 2. Create team and add it to league
-//            leagueService.addTeamToLeague("Snus Hockey League", "Skövde Snusmasters");
-
-            // 3. Create players
-            playerService.createPlayer(
-                    "P001",
-                    "Bosse Slagskott",
-                    Position.DEFENDER,
-                    44,
-                    90,
-                    75,
-                    40,
-                    88,
-                    99
-            );
-
-            playerService.createPlayer(
-                    "P002",
-                    "Glenn Snusberg",
-                    Position.CENTER,
-                    13,
-                    65,
-                    95,
-                    30,
-                    91,
-                    100
-            );
-
-            // 4. Add players to team
-
-//            Player player = playerService.getPlayerById("P001");
-//
-//            teamService.addPlayerToTeam(team, player);
+        System.out.println(leagueService.getLeagueById(1));
+        System.out.println(playerService.getPlayerById(1));
+        System.out.println(teamService.getTeamById(1));
 
 
-            System.out.println("League, team and players created!");
-        }
     }
 }

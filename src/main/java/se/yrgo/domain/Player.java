@@ -12,9 +12,8 @@ import java.util.Objects;
 public class Player {
 
     @Id
-    @Column(nullable = false, unique = true)
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private String playerId;
+    private int playerId;
 
     @Column(nullable = false)
     private String fullName;
@@ -64,6 +63,7 @@ public class Player {
                   int refereeHeckling, int beerChugging, int diving,
                   int swag, int snusing) {
 
+        this.playerId = playerId;
         this.fullName = fullName;
         this.position = position;
         this.jerseyNr = jerseyNr;
@@ -80,7 +80,7 @@ public class Player {
         * 16500;
     }
 
-    public String getPlayerId() {
+    public int getPlayerId() {
         return playerId;
     }
 
@@ -126,13 +126,7 @@ public class Player {
 
     @Override
     public String toString() {
-        return "Player{" +
-                "playerId='" + playerId + '\'' +
-                ", fullName='" + fullName + '\'' +
-                ", position=" + position +
-                ", jerseyNr=" + jerseyNr +
-                ", salary=" + salary +
-                '}';
+        return "Player: " + this.getFullName();
     }
 
     @Override

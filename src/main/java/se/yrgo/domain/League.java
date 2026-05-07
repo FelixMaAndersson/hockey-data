@@ -1,6 +1,7 @@
 package se.yrgo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +47,6 @@ public class League {
 
     @Override
     public String toString() {
-        return "League{" +
-                "name='" + name + '\'' +
-                ", teams=" + teams +
-                '}';
+        return "League: " + this.getName();
     }
 }
