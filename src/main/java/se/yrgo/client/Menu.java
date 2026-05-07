@@ -2,7 +2,10 @@ package se.yrgo.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.yrgo.domain.Player;
 import se.yrgo.services.leagues.LeagueManagementService;
+import se.yrgo.services.players.PlayerManagementService;
+import se.yrgo.services.teams.TeamManagementService;
 
 import java.util.Scanner;
 
@@ -11,11 +14,19 @@ public class Menu {
 
     private final Scanner input = new Scanner(System.in);
     private final LeagueManagementService leagueService;
+    private final TeamManagementService teamService;
+    private final PlayerManagementService playerService;
+
 
     @Autowired
-    public Menu(LeagueManagementService leagueService) {
+    public Menu(LeagueManagementService leagueService,
+                TeamManagementService teamService,
+                PlayerManagementService playerService) {
         this.leagueService = leagueService;
+        this.teamService = teamService;
+        this.playerService = playerService;
     }
+
 
     public void header() {
         System.out.println("-------------------------------------------");
@@ -70,6 +81,10 @@ public class Menu {
                 case "1" -> createLeague();
 //                case "2" -> createTeam();
 //                case "3" -> createPlayer();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("What the puck! Wrong choice, try again!");
             }
         }
 
