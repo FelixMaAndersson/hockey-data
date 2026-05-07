@@ -55,10 +55,21 @@ public class LeagueManagementService {
         return dao.getAllTeams(league.getId());
     }
 
-    public void addTeamToLeague(String leagueName, String teamName) throws LeagueNotFoundException {
+    @Transactional
+    public void addTeamToLeague(String leagueName, String teamName)
+            throws LeagueNotFoundException {
+
         League league = dao.getByName(leagueName);
+
+        if (league.getTeams().size() >= 10) {
+            throw new IllegalStateException(
+                    "A league cannot contain more than 10 teams");
+        }
+
         Team team = new Team(teamName);
+
         league.addTeam(team);
+
         dao.update(league);
     }
 

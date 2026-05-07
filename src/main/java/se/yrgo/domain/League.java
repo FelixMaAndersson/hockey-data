@@ -1,6 +1,7 @@
 package se.yrgo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ public class League {
     private String name;
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
+    @Max(10)
     private List<Team> teams = new ArrayList<>();
 
     public League() {
