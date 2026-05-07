@@ -25,6 +25,10 @@ public class TeamManagementService {
         this.teamDao = teamDao;
     }
 
+    public List<Team> getAllTeams() {
+        return teamDao.getAllTeams();
+    }
+
     // CREATE
     public void createTeam(String name) {
         Team team = new Team(name);

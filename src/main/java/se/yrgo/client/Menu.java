@@ -2,11 +2,14 @@ package se.yrgo.client;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import se.yrgo.domain.League;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
+import se.yrgo.domain.Team;
 import se.yrgo.services.leagues.LeagueManagementService;
 import se.yrgo.services.players.PlayerManagementService;
 import se.yrgo.services.teams.TeamManagementService;
+import se.yrgo.exceptions.InvalidPlayerException;
 
 import java.util.Scanner;
 
@@ -56,7 +59,10 @@ public class Menu {
                     clearScreen();
                     createMenu();
                 }
-//                case "2" -> viewMenu();
+                case "2" -> {
+                    clearScreen();
+                    viewMenu();
+                }
 //                case "3" -> joinLeague();
                 case "0" -> System.exit(0);
                 default -> {
@@ -109,37 +115,94 @@ public class Menu {
     public void createPlayer() {
         header();
 
-        System.out.print("Full name: ");
-        String fullName = input.nextLine();
+        try {
+            System.out.print("Full name: ");
+            String fullName = input.nextLine();
 
-        System.out.print("Position (center, : ");
-        Position position = Position.valueOf(input.nextLine().toUpperCase());
+            System.out.print("Position (GOALIE, DEFENDER, CENTER, LEFT_WING or RIGHT_WING) : ");
+            Position position = Position.valueOf(input.nextLine().toUpperCase());
 
-        System.out.print("Jersey number: ");
-        int jerseyNr = Integer.parseInt(input.nextLine());
+            System.out.print("Jersey number: ");
+            int jerseyNr = Integer.parseInt(input.nextLine());
 
-        System.out.print("How good your player is at heckling the referee (1-100): ");
-        int refereeHeckling = Integer.parseInt(input.nextLine());
+            System.out.print("How good your player is at heckling the referee (1-100): ");
+            int refereeHeckling = Integer.parseInt(input.nextLine());
 
-        System.out.print("How much of a beer chugging king your player is (1-100): ");
-        int beerChugging = Integer.parseInt(input.nextLine());
+            System.out.print("How much of a beer chugging king your player is (1-100): ");
+            int beerChugging = Integer.parseInt(input.nextLine());
 
-        System.out.print("How good of an actor your player is (1-100): ");
-        int diving = Integer.parseInt(input.nextLine());
+            System.out.print("How good of an actor your player is (1-100): ");
+            int diving = Integer.parseInt(input.nextLine());
 
-        System.out.print("The swag factor (1-100): ");
-        int swag = Integer.parseInt(input.nextLine());
+            System.out.print("The swag factor (1-100): ");
+            int swag = Integer.parseInt(input.nextLine());
 
-        System.out.print("How much ettans lös our player can shove under the lip (1-100): ");
-        int snusing = Integer.parseInt(input.nextLine());
+            System.out.print("How much ettans lös our player can shove under the lip (1-100): ");
+            int snusing = Integer.parseInt(input.nextLine());
 
-        Player player = playerService.createPlayer(fullName, position, jerseyNr, refereeHeckling, beerChugging, diving, swag, snusing);
+            Player player = playerService.createPlayer(fullName, position, jerseyNr, refereeHeckling, beerChugging, diving, swag, snusing);
 
-        System.out.println("Say hi to: "+ player.getFullName() +" with a salary of: " + player.getSalary());
+            System.out.println("Say hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
+
+        } catch (InvalidPlayerException e) {
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid position. Use GOALIE, DEFENDER, CENTER, LEFT_WING or RIGHT_WING.");
+        }
 
     }
 
+    public void viewMenu() {
+        while (true) {
+            header();
+            System.out.println("[1] VIEW LEAGUES");
+            System.out.println("[2] VIEW TEAMS");
+            System.out.println("[3] VIEW PLAYERS");
+            System.out.println("[0] BACK");
 
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> viewLeagues();
+                case "2" -> viewTeams();
+                case "3" -> viewPlayers();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("Quit pucking around, try again!");
+            }
+        }
+    }
+
+    public void viewPlayers() {
+        header();
+
+        for (Player player : playerService.getAllPlayers()) {
+            System.out.println(player.getPlayerId()
+                    + " - "
+                    + player.getFullName()
+                    + " - "
+                    + player.getPosition()
+                    + " - salary: "
+                    + player.getSalary());
+        }
+    }
+
+    public void viewTeams() {
+        header();
+
+        for (Team team : teamService.getAllTeams()) {
+            System.out.println(team.getName());
+        }
+    }
+
+    public void viewLeagues() {
+        header();
+
+        for (League league : leagueService.getAllLeagues()) {
+            System.out.println(league.getName());
+        }
+    }
 
     public void clearScreen() {
         System.out.print("\033[H\033[2J");
