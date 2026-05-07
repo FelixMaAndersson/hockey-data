@@ -54,7 +54,6 @@ public class LeagueManagementService {
         return dao.getAllTeams(league.getId());
     }
 
-<<<<<<< HEAD
     public void addTeamToLeague(String leagueName, String teamName) throws LeagueNotFoundException {
         if (getTeamsInLeague(leagueName).size() >= 10) {
             System.out.println(leagueName + " is currently full, please remove a team from the league to add a new team.");
@@ -64,7 +63,7 @@ public class LeagueManagementService {
             league.addTeam(team);
             dao.update(league);
         }
-=======
+
     @Transactional
     public void addTeamToLeague(String leagueName, String teamName)
             throws LeagueNotFoundException {
@@ -81,7 +80,6 @@ public class LeagueManagementService {
         league.addTeam(team);
 
         dao.update(league);
->>>>>>> main
     }
 
 
