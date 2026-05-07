@@ -15,7 +15,7 @@ import java.util.List;
 public class TeamManagementService {
 
     private static final int MAX_PLAYERS = 6;
-    private static final int MAX_TEAM_SALARY = 24997500;
+    private static final int MAX_TEAM_SALARY = 24_997_500;
 
     private TeamDao teamDao;
 
@@ -38,9 +38,12 @@ public class TeamManagementService {
         teamDao.delete(team);
     }
 
-    // ADD PLAYER WITH VALIDATION
-    public void addPlayerToTeam(Team team, Player player)
+    // ADD PLAYER (NU MED TEAM NAME IN I STÄLLET)
+    public void addPlayerToTeam(String teamName, Player player)
             throws TeamNotFoundException {
+
+        
+        Team team = teamDao.getByName(teamName);
 
         List<Player> players = team.getPlayers();
 
@@ -64,12 +67,7 @@ public class TeamManagementService {
         long defenders = count(players, Position.DEFENDER);
         long goalies = count(players, Position.GOALIE);
 
-        validate(player,
-                centers,
-                leftWings,
-                rightWings,
-                defenders,
-                goalies);
+        validate(player, centers, leftWings, rightWings, defenders, goalies);
 
         team.addPlayer(player);
 
@@ -94,30 +92,19 @@ public class TeamManagementService {
         long totalForwards =
                 centers + leftWings + rightWings;
 
-        // MAX 3 FORWARDS
         if ((pos == Position.CENTER
                 || pos == Position.LEFT_WING
                 || pos == Position.RIGHT_WING)
                 && totalForwards >= 3) {
-
-            throw new RuntimeException(
-                    "Max 3 forwards allowed");
+            throw new RuntimeException("Max 3 forwards allowed");
         }
 
-        // MAX 2 DEFENDERS
-        if (pos == Position.DEFENDER
-                && defenders >= 2) {
-
-            throw new RuntimeException(
-                    "Max 2 defenders allowed");
+        if (pos == Position.DEFENDER && defenders >= 2) {
+            throw new RuntimeException("Max 2 defenders allowed");
         }
 
-        // MAX 1 GOALIE
-        if (pos == Position.GOALIE
-                && goalies >= 1) {
-
-            throw new RuntimeException(
-                    "Max 1 goalie allowed");
+        if (pos == Position.GOALIE && goalies >= 1) {
+            throw new RuntimeException("Max 1 goalie allowed");
         }
     }
 }
