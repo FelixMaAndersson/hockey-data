@@ -11,7 +11,6 @@ import se.yrgo.exceptions.PlayerNotFoundException;
 import java.util.List;
 
 @Service
-@Transactional
 public class PlayerManagementService {
 
     private final PlayerDao dao;
@@ -21,6 +20,7 @@ public class PlayerManagementService {
         this.dao = dao;
     }
 
+    @Transactional
     public void createPlayer(String playerId, String fullName,
                              Position position, int jerseyNr,
                              int refereeHeckling, int beerChugging,
@@ -44,20 +44,34 @@ public class PlayerManagementService {
         dao.create(player);
     }
 
+    @Transactional(readOnly = true)
     public Player getPlayerById(String playerId) throws PlayerNotFoundException {
         return dao.getById(playerId);
     }
 
+    @Transactional(readOnly = true)
     public List<Player> getAllPlayers() {
         return dao.getAllPlayers();
     }
 
+    @Transactional
     public void updatePlayer(Player player) throws PlayerNotFoundException {
         dao.update(player);
     }
 
+    @Transactional
     public void deletePlayer(String playerId) throws PlayerNotFoundException {
         Player player = dao.getById(playerId);
         dao.delete(player);
     }
+
+    public List<Player> getPlayersByPosition(Position position) {
+        return dao.getPlayersByPosition(position);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary) {
+        return dao.getPlayersBySalaryRange(minSalary, maxSalary);
+    }
+
 }
