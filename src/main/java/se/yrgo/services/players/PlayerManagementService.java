@@ -73,8 +73,8 @@ public class PlayerManagementService {
     }
 
     @Transactional(readOnly = true)
-    public getPlayersBySalaryRange() {
-        return dao.getPlayersBySalaryRange(minSalary, maxSalary);
+    public List<Player> getPlayersBySalary(int salary) throws PlayerNotFoundException {
+        return dao.getBySalary(salary);
     }
 
 }
