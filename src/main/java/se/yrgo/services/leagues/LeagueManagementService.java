@@ -8,6 +8,7 @@ import se.yrgo.domain.League;
 import se.yrgo.domain.Team;
 import se.yrgo.exceptions.LeagueNotFoundException;
 
+import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
@@ -61,8 +62,8 @@ public class LeagueManagementService {
             League league = dao.getByName(leagueName);
 
             if (league.getTeams().size() >= 10) {
-                throw new IllegalStateException(
-                        "A league cannot contain more than 10 teams");
+                System.out.println("A league cannot contain more than 10 teams");
+                return;
             }
 
             Team team = new Team(teamName);

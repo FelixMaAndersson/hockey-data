@@ -21,13 +21,12 @@ public class PlayerManagementService {
     }
 
     @Transactional
-    public void createPlayer(String playerId, String fullName,
+    public void createPlayer(String fullName,
                              Position position, int jerseyNr,
                              int refereeHeckling, int beerChugging,
                              int diving, int game, int snusing) {
 
         Player player = new Player(
-                playerId,
                 fullName,
                 position,
                 jerseyNr,
@@ -42,7 +41,7 @@ public class PlayerManagementService {
     }
 
     @Transactional(readOnly = true)
-    public Player getPlayerById(String playerId) throws PlayerNotFoundException {
+    public Player getPlayerById(int playerId) throws PlayerNotFoundException {
         return dao.getById(playerId);
     }
 
@@ -57,7 +56,7 @@ public class PlayerManagementService {
     }
 
     @Transactional
-    public void deletePlayer(String playerId) throws PlayerNotFoundException {
+    public void deletePlayer(int playerId) throws PlayerNotFoundException {
         Player player = dao.getById(playerId);
         dao.delete(player);
     }

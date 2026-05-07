@@ -23,7 +23,7 @@ public class PlayerDaoImpl implements PlayerDao {
     }
 
     @Override
-    public Player getById(String playerId) throws PlayerNotFoundException {
+    public Player getById(int playerId) throws PlayerNotFoundException {
 
         Player player = em.find(Player.class, playerId);
 
