@@ -92,4 +92,6 @@ public class PlayerDaoImpl implements PlayerDao {
                 .setParameter("salary", salary)
                 .getResultList();
     }
+
+
 }
