@@ -10,15 +10,49 @@ import java.util.List;
 
 public class TeamManagementService {
 
+    private static final int MAX_PLAYERS = 6;
+    private static final int MAX_TEAM_SALARY = 24997500;
+
     private TeamDao teamDao;
 
     public TeamManagementService(TeamDao teamDao) {
         this.teamDao = teamDao;
     }
 
-    public void addPlayerToTeam(Team team, Player player) throws TeamNotFoundException {
+    // CREATE
+    public void createTeam(Team team) {
+        teamDao.create(team);
+    }
+
+    // UPDATE
+    public void updateTeam(Team team) throws TeamNotFoundException {
+        teamDao.update(team);
+    }
+
+    // DELETE
+    public void deleteTeam(Team team) throws TeamNotFoundException {
+        teamDao.delete(team);
+    }
+
+    // ADD PLAYER WITH VALIDATION
+    public void addPlayerToTeam(Team team, Player player)
+            throws TeamNotFoundException {
 
         List<Player> players = team.getPlayers();
+
+        // MAX 6 PLAYERS
+        if (players.size() >= MAX_PLAYERS) {
+            throw new RuntimeException("Team already has maximum 6 players");
+        }
+
+        // SALARY CAP
+        int totalSalary = players.stream()
+                .mapToInt(Player::getSalary)
+                .sum();
+
+        if (totalSalary + player.getSalary() > MAX_TEAM_SALARY) {
+            throw new RuntimeException("Salary cap exceeded");
+        }
 
         long centers = count(players, Position.CENTER);
         long leftWings = count(players, Position.LEFT_WING);
@@ -26,9 +60,15 @@ public class TeamManagementService {
         long defenders = count(players, Position.DEFENDER);
         long goalies = count(players, Position.GOALIE);
 
-        validate(player, centers, leftWings, rightWings, defenders, goalies);
+        validate(player,
+                centers,
+                leftWings,
+                rightWings,
+                defenders,
+                goalies);
 
         team.addPlayer(player);
+
         teamDao.update(team);
     }
 
@@ -47,19 +87,33 @@ public class TeamManagementService {
 
         Position pos = player.getPosition();
 
-        long totalForwards = centers + leftWings + rightWings;
+        long totalForwards =
+                centers + leftWings + rightWings;
 
-        if ((pos == Position.CENTER || pos == Position.LEFT_WING || pos == Position.RIGHT_WING)
+        // MAX 3 FORWARDS
+        if ((pos == Position.CENTER
+                || pos == Position.LEFT_WING
+                || pos == Position.RIGHT_WING)
                 && totalForwards >= 3) {
-            throw new RuntimeException("Max 3 forwards allowed (CENTER + WINGs)");
+
+            throw new RuntimeException(
+                    "Max 3 forwards allowed");
         }
 
-        if (pos == Position.DEFENDER && defenders >= 2) {
-            throw new RuntimeException("Max 2 defenders allowed");
+        // MAX 2 DEFENDERS
+        if (pos == Position.DEFENDER
+                && defenders >= 2) {
+
+            throw new RuntimeException(
+                    "Max 2 defenders allowed");
         }
 
-        if (pos == Position.GOALIE && goalies >= 1) {
-            throw new RuntimeException("Max 1 goalie allowed");
+        // MAX 1 GOALIE
+        if (pos == Position.GOALIE
+                && goalies >= 1) {
+
+            throw new RuntimeException(
+                    "Max 1 goalie allowed");
         }
     }
 }
