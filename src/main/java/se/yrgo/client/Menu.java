@@ -42,8 +42,9 @@ public class Menu {
 
     public void startMenu() {
         System.out.println("[1] CREATE (League, Team, Player)");
-        System.out.println("[2] VIEW");
-        System.out.println("[3] JOIN LEAGUE");
+        System.out.println("[2] VIEW (League, Team, Player)");
+        System.out.println("[3] JOIN LEAGUE !!! FEATURE NOT YET AVAILABLE !!!");
+        System.out.println("[0] EXIT");
         System.out.print("Your choice: ");
     }
 
@@ -80,6 +81,7 @@ public class Menu {
             System.out.println("[1] CREATE LEAGUE");
             System.out.println("[2] CREATE TEAM");
             System.out.println("[3] CREATE PLAYER");
+            System.out.println("[0] BACK");
 
             String choice = input.nextLine();
 
@@ -144,6 +146,8 @@ public class Menu {
 
             System.out.println("Say hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
 
+        } catch (NumberFormatException e) {
+            System.out.println("You must enter a number.");
         } catch (InvalidPlayerException e) {
             System.out.println(e.getMessage());
         } catch (IllegalArgumentException e) {
