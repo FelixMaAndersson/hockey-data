@@ -24,8 +24,7 @@ public class PlayerManagementService {
     public void createPlayer(String playerId, String fullName,
                              Position position, int jerseyNr,
                              int refereeHeckling, int beerChugging,
-                             int diving, int game, int snusing,
-                             int swag, int salary) {
+                             int diving, int game, int snusing) {
 
         Player player = new Player(
                 playerId,
@@ -36,9 +35,7 @@ public class PlayerManagementService {
                 beerChugging,
                 diving,
                 game,
-                snusing,
-                swag,
-                salary
+                snusing
         );
 
         dao.create(player);
