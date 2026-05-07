@@ -11,3 +11,6 @@ target/
 # OS-skräp
 .DS_Store
 Thumbs.db
+
+#database
+database.dat.*
