@@ -72,4 +72,9 @@ public class PlayerManagementService {
         return dao.getPlayersBySalaryRange(minSalary, maxSalary);
     }
 
+    @Transactional(readOnly = true)
+    public getPlayersBySalaryRange() {
+        return dao.getPlayersBySalaryRange(minSalary, maxSalary);
+    }
+
 }
