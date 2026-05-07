@@ -65,6 +65,7 @@ public class PlayerManagementService {
         dao.delete(player);
     }
 
+    @Transactional(readOnly = true)
     public List<Player> getPlayersByPosition(Position position) {
         return dao.getPlayersByPosition(position);
     }
