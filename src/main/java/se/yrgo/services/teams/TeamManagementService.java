@@ -3,9 +3,11 @@ package se.yrgo.services.teams;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.dataaccess.TeamDao;
+import se.yrgo.domain.League;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
 import se.yrgo.domain.Team;
+import se.yrgo.exceptions.LeagueNotFoundException;
 import se.yrgo.exceptions.TeamNotFoundException;
 
 import java.util.List;
@@ -24,7 +26,8 @@ public class TeamManagementService {
     }
 
     // CREATE
-    public void createTeam(Team team) {
+    public void createTeam(String name) {
+        Team team = new Team(name);
         teamDao.create(team);
     }
 
@@ -106,5 +109,9 @@ public class TeamManagementService {
         if (pos == Position.GOALIE && goalies >= 1) {
             throw new RuntimeException("Max 1 goalie allowed");
         }
+    }
+
+    public Team getTeamById(int id) throws TeamNotFoundException {
+        return teamDao.getById(id);
     }
 }

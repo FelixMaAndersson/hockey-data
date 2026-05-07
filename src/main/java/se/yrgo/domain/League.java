@@ -15,7 +15,6 @@ public class League {
     private String name;
 
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
-    @Max(10)
     private List<Team> teams = new ArrayList<>();
 
     public League() {
@@ -48,9 +47,6 @@ public class League {
 
     @Override
     public String toString() {
-        return "League{" +
-                "name='" + name + '\'' +
-                ", teams=" + teams +
-                '}';
+        return "League: " + this.getName();
     }
 }
