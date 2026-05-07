@@ -23,7 +23,7 @@ public class PlayerManagementService {
     }
 
     @Transactional
-    public void createPlayer(String fullName,
+    public Player createPlayer(String fullName,
                              Position position, int jerseyNr,
                              int refereeHeckling, int beerChugging,
                              int diving, int swag, int snusing) {
@@ -41,6 +41,8 @@ public class PlayerManagementService {
 
         validatePlayer(player);
         dao.create(player);
+
+        return player;
     }
 
     @Transactional(readOnly = true)
