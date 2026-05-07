@@ -13,6 +13,7 @@ public class Player {
 
     @Id
     @Column(nullable = false, unique = true)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private String playerId;
 
     @Column(nullable = false)
@@ -59,11 +60,10 @@ public class Player {
     public Player() {
     }
 
-    public Player(String playerId, String fullName, Position position, int jerseyNr,
+    public Player(String fullName, Position position, int jerseyNr,
                   int refereeHeckling, int beerChugging, int diving,
                   int swag, int snusing) {
 
-        this.playerId = playerId;
         this.fullName = fullName;
         this.position = position;
         this.jerseyNr = jerseyNr;
