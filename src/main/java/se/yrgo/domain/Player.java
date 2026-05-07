@@ -1,6 +1,8 @@
 package se.yrgo.domain;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Max;
+import jakarta.validation.constraints.Min;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,25 +12,47 @@ import java.util.Objects;
 public class Player {
 
     @Id
+    @Column(nullable = false, unique = true)
     private String playerId;
 
+    @Column(nullable = false)
     private String fullName;
 
     @ManyToMany(mappedBy = "players")
     private List<Team> teams = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private Position position;
 
+    @Column(nullable = false)
     private int jerseyNr;
 
     // stats / ratings
+    @Column(nullable = false)
+    @Min(1)
+    @Max(100)
     private int refereeHeckling;
+
+    @Column(nullable = false)
+    @Min(1)
+    @Max(100)
     private int beerChugging;
+
+    @Column(nullable = false)
+    @Min(1)
+    @Max(100)
     private int diving;
-    private int game;
-    private int snusing;
+
+    @Column(nullable = false)
+    @Min(1)
+    @Max(100)
     private int swag;
+
+    @Column(nullable = false)
+    @Min(1)
+    @Max(100)
+    private int snusing;
 
     private int salary;
 
@@ -37,7 +61,7 @@ public class Player {
 
     public Player(String playerId, String fullName, Position position, int jerseyNr,
                   int refereeHeckling, int beerChugging, int diving,
-                  int game, int snusing, int swag, int salary) {
+                  int swag, int snusing) {
 
         this.playerId = playerId;
         this.fullName = fullName;
@@ -46,10 +70,14 @@ public class Player {
         this.refereeHeckling = refereeHeckling;
         this.beerChugging = beerChugging;
         this.diving = diving;
-        this.game = game;
-        this.snusing = snusing;
         this.swag = swag;
-        this.salary = salary;
+        this.snusing = snusing;
+        this.salary = (refereeHeckling
+        + beerChugging
+        + diving
+        + swag
+        +snusing)
+        * 16500;
     }
 
     public String getPlayerId() {
@@ -84,16 +112,12 @@ public class Player {
         return diving;
     }
 
-    public int getGame() {
-        return game;
+    public int getSwag() {
+        return swag;
     }
 
     public int getSnusing() {
         return snusing;
-    }
-
-    public int getSwag() {
-        return swag;
     }
 
     public int getSalary() {

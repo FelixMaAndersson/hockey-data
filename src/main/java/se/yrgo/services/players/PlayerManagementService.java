@@ -24,8 +24,7 @@ public class PlayerManagementService {
     public void createPlayer(String playerId, String fullName,
                              Position position, int jerseyNr,
                              int refereeHeckling, int beerChugging,
-                             int diving, int game, int snusing,
-                             int swag, int salary) {
+                             int diving, int game, int snusing) {
 
         Player player = new Player(
                 playerId,
@@ -36,9 +35,7 @@ public class PlayerManagementService {
                 beerChugging,
                 diving,
                 game,
-                snusing,
-                swag,
-                salary
+                snusing
         );
 
         dao.create(player);
@@ -65,12 +62,18 @@ public class PlayerManagementService {
         dao.delete(player);
     }
 
+    @Transactional(readOnly = true)
     public List<Player> getPlayersByPosition(Position position) {
         return dao.getPlayersByPosition(position);
     }
 
     @Transactional(readOnly = true)
     public List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary) {
+        return dao.getPlayersBySalaryRange(minSalary, maxSalary);
+    }
+
+    @Transactional(readOnly = true)
+    public getPlayersBySalaryRange() {
         return dao.getPlayersBySalaryRange(minSalary, maxSalary);
     }
 
