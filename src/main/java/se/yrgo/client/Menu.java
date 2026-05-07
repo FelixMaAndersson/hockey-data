@@ -39,7 +39,6 @@ public class Menu {
     public void startMenu() {
         System.out.println("[1] CREATE (League, Team, Player)");
         System.out.println("[2] VIEW");
-        System.out.println();
         System.out.println("[3] JOIN LEAGUE");
         System.out.print("Your choice: ");
     }
@@ -56,8 +55,8 @@ public class Menu {
                     clearScreen();
                     createMenu();
                 }
-//                case "2" -> viewMenu();
-//                case "3" -> joinLeague();
+                case "2" -> viewMenu();
+                case "3" -> joinLeague();
                 case "0" -> System.exit(0);
                 default -> {
                     System.out.println("You dumb puck, wrong choice, try again!");
