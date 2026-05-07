@@ -10,6 +10,7 @@ import se.yrgo.exceptions.InvalidPlayerException;
 import se.yrgo.exceptions.PlayerNotFoundException;
 
 import java.util.List;
+import java.util.Objects;
 
 @Service
 public class PlayerManagementService {
@@ -80,9 +81,12 @@ public class PlayerManagementService {
     }
 
 
-    private void validateJerseyNumber(int jerseyNr) {
+    private void validateJerseyNumber(int jerseyNr, String fullName) {
 
-        if (jerseyNr < 1 || jerseyNr > 98) {
+        if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {
+            throw new InvalidPlayerException(
+                    "Who do you think you are?! You're not Wayne Gretzky");
+        } else if (jerseyNr < 1 || jerseyNr > 99) {
             throw new InvalidPlayerException(
                     "Jersey number must be between 1 and 98");
         }
@@ -97,7 +101,7 @@ public class PlayerManagementService {
     }
 
     private void validatePlayer(Player player) {
-        validateJerseyNumber(player.getJerseyNr());
+        validateJerseyNumber(player.getJerseyNr(), player.getFullName());
 
         validateRating(player.getRefereeHeckling(), "Referee heckling");
         validateRating(player.getBeerChugging(), "Beer chugging");
