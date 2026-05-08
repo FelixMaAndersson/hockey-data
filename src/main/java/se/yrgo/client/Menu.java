@@ -92,10 +92,20 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> createLeague();
-                case "2" -> createTeam();
-                case "3" -> createPlayer();
+                case "1" -> {
+                    clearScreen();
+                    createLeague();
+                }
+                case "2" -> {
+                    clearScreen();
+                    createTeam();
+                }
+                case "3" -> {
+                    clearScreen();
+                    createPlayer();
+                }
                 case "0" -> {
+                    clearScreen();
                     return;
                 }
                 default -> System.out.println("What the puck! Wrong choice, try again!");
@@ -115,10 +125,20 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> viewLeagues();
-                case "2" -> viewTeams();
-                case "3" -> viewPlayers();
+                case "1" -> {
+                    clearScreen();
+                    viewLeagues();
+                }
+                case "2" -> {
+                    clearScreen();
+                    viewTeams();
+                }
+                case "3" -> {
+                    clearScreen();
+                    viewPlayers();
+                }
                 case "0" -> {
+                    clearScreen();
                     return;
                 }
                 default -> System.out.println("Quit pucking around, try again!");
@@ -156,12 +176,15 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
+                    clearScreen();
                     return chooseExistingLeague();
                 }
                 case "2" -> {
+                    clearScreen();
                     return createLeague();
                 }
                 case "0" -> {
+                    clearScreen();
                     return null;
                 }
                 default -> System.out.println("What the puck, try again!");
@@ -267,8 +290,12 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> addExistingPlayerToTeam(team);
+                case "1" -> {
+                    clearScreen();
+                    addExistingPlayerToTeam(team);
+                }
                 case "2" -> {
+                    clearScreen();
                     Player player = createPlayer();
 
                     if (player != null) {
@@ -277,6 +304,7 @@ public class Menu {
                     }
                 }
                 case "0" -> {
+                    clearScreen();
                     return;
                 }
                 default -> System.out.println("Wrong choice, try again!");
@@ -344,12 +372,15 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
+                    clearScreen();
                     return chooseExistingTeam();
                 }
                 case "2" -> {
+                    clearScreen();
                     return createTeam();
                 }
                 case "0" -> {
+                    clearScreen();
                     return null;
                 }
                 default -> System.out.println("Wrong choice, try again!");
