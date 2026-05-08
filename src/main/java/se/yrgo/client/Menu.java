@@ -88,6 +88,7 @@ public class Menu {
             System.out.println("[2] CREATE TEAM");
             System.out.println("[3] CREATE PLAYER");
             System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
 
             String choice = input.nextLine();
 
@@ -121,6 +122,7 @@ public class Menu {
             System.out.println("[2] VIEW TEAMS");
             System.out.println("[3] VIEW PLAYERS");
             System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
 
             String choice = input.nextLine();
 
@@ -171,6 +173,7 @@ public class Menu {
             System.out.println("[1] JOIN EXISTING LEAGUE");
             System.out.println("[2] CREATE LEAGUE TO JOIN");
             System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
 
             String choice = input.nextLine();
 
@@ -286,6 +289,7 @@ public class Menu {
             System.out.println("[1] ADD EXISTING PLAYER");
             System.out.println("[2] CREATE NEW PLAYER AND ADD");
             System.out.println("[0] DONE");
+            System.out.print("Your choice: ");
 
             String choice = input.nextLine();
 
@@ -367,6 +371,7 @@ public class Menu {
             System.out.println("[1] USE EXISTING TEAM");
             System.out.println("[2] CREATE NEW TEAM");
             System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
 
             String choice = input.nextLine();
 
