@@ -125,6 +125,42 @@ public class Player {
         return salary;
     }
 
+    public void setFullName(String fullName) {
+        this.fullName = fullName;
+    }
+
+    public void setPosition(Position position) {
+        this.position = position;
+    }
+
+    public void setJerseyNr(int jerseyNr) {
+        this.jerseyNr = jerseyNr;
+    }
+
+    public void setRefereeHeckling(int refereeHeckling) {
+        this.refereeHeckling = refereeHeckling;
+    }
+
+    public void setBeerChugging(int beerChugging) {
+        this.beerChugging = beerChugging;
+    }
+
+    public void setDiving(int diving) {
+        this.diving = diving;
+    }
+
+    public void setSwag(int swag) {
+        this.swag = swag;
+    }
+
+    public void setSnusing(int snusing) {
+        this.snusing = snusing;
+    }
+
+    public void setSalary(int salary) {
+        this.salary = salary;
+    }
+
     @Override
     public String toString() {
         return "Player: " + this.getFullName();

@@ -2,13 +2,13 @@ package se.yrgo.services.teams;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import se.yrgo.dataaccess.PlayerDao;
 import se.yrgo.dataaccess.TeamDao;
-import se.yrgo.domain.League;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
 import se.yrgo.domain.Team;
-import se.yrgo.exceptions.LeagueNotFoundException;
 import se.yrgo.exceptions.TeamNotFoundException;
+import se.yrgo.exceptions.PlayerNotFoundException;
 
 import java.util.List;
 
@@ -19,10 +19,12 @@ public class TeamManagementService {
     private static final int MAX_PLAYERS = 6;
     private static final int MAX_TEAM_SALARY = 24_997_500;
 
-    private TeamDao teamDao;
+    private final TeamDao teamDao;
+    private final PlayerDao playerDao;
 
-    public TeamManagementService(TeamDao teamDao) {
+    public TeamManagementService(TeamDao teamDao, PlayerDao playerDao) {
         this.teamDao = teamDao;
+        this.playerDao = playerDao;
     }
 
     public List<Team> getAllTeams() {
@@ -30,9 +32,11 @@ public class TeamManagementService {
     }
 
     // CREATE
-    public void createTeam(String name) {
+    public Team createTeam(String name) {
         Team team = new Team(name);
         teamDao.create(team);
+
+        return team;
     }
 
     // UPDATE
@@ -46,20 +50,18 @@ public class TeamManagementService {
     }
 
     // ADD PLAYER (NU MED TEAM NAME IN I STÄLLET)
-    public void addPlayerToTeam(String teamName, Player player)
-            throws TeamNotFoundException {
+    public void addPlayerToTeam(String teamName, int playerId)
+            throws TeamNotFoundException, PlayerNotFoundException {
 
-        
         Team team = teamDao.getByName(teamName);
+        Player player = playerDao.getById(playerId);
 
         List<Player> players = team.getPlayers();
 
-        // MAX 6 PLAYERS
         if (players.size() >= MAX_PLAYERS) {
             throw new RuntimeException("Team already has maximum 6 players");
         }
 
-        // SALARY CAP
         int totalSalary = players.stream()
                 .mapToInt(Player::getSalary)
                 .sum();
@@ -77,10 +79,8 @@ public class TeamManagementService {
         validate(player, centers, leftWings, rightWings, defenders, goalies);
 
         team.addPlayer(player);
-
         teamDao.update(team);
     }
-
     private long count(List<Player> players, Position position) {
         return players.stream()
                 .filter(p -> p.getPosition() == position)
@@ -113,6 +113,10 @@ public class TeamManagementService {
         if (pos == Position.GOALIE && goalies >= 1) {
             throw new RuntimeException("Max 1 goalie allowed");
         }
+    }
+
+    public Team getTeamByName(String teamName) throws TeamNotFoundException {
+        return teamDao.getByName(teamName);
     }
 
     public Team getTeamById(int id) throws TeamNotFoundException {

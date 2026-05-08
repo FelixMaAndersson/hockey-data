@@ -4,11 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import se.yrgo.dataaccess.LeagueDao;
+import se.yrgo.dataaccess.TeamDao;
 import se.yrgo.domain.League;
 import se.yrgo.domain.Team;
 import se.yrgo.exceptions.LeagueNotFoundException;
+import se.yrgo.exceptions.TeamNotFoundException;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
@@ -16,15 +17,18 @@ import java.util.List;
 public class LeagueManagementService {
 
     private final LeagueDao dao;
+    private final TeamDao teamDao;
 
     @Autowired
-    public LeagueManagementService(LeagueDao dao) {
+    public LeagueManagementService(LeagueDao dao, TeamDao teamDao) {
         this.dao = dao;
+        this.teamDao = teamDao;
     }
 
-    public void createLeague(String name) {
+    public League createLeague(String name) {
         League league = new League(name);
         dao.create(league);
+        return league;
     }
 
     public void updateLeagueName(String oldName, String newName) throws LeagueNotFoundException {
@@ -57,7 +61,7 @@ public class LeagueManagementService {
 
         @Transactional
         public void addTeamToLeague(String leagueName, String teamName)
-            throws LeagueNotFoundException {
+                throws LeagueNotFoundException, TeamNotFoundException {
 
             League league = dao.getByName(leagueName);
 
@@ -66,12 +70,11 @@ public class LeagueManagementService {
                 return;
             }
 
-            Team team = new Team(teamName);
+            Team team = teamDao.getByName(teamName);
 
             league.addTeam(team);
 
             dao.update(league);
         }
-
 
 }

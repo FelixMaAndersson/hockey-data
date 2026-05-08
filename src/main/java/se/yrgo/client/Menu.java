@@ -6,6 +6,9 @@ import se.yrgo.domain.League;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
 import se.yrgo.domain.Team;
+import se.yrgo.exceptions.LeagueNotFoundException;
+import se.yrgo.exceptions.PlayerNotFoundException;
+import se.yrgo.exceptions.TeamNotFoundException;
 import se.yrgo.services.leagues.LeagueManagementService;
 import se.yrgo.services.players.PlayerManagementService;
 import se.yrgo.services.teams.TeamManagementService;
@@ -31,7 +34,6 @@ public class Menu {
         this.playerService = playerService;
     }
 
-
     public void header() {
         System.out.println("-------------------------------------------");
         System.out.println("   Strange Quality Hockey League - SQHL   ");
@@ -43,12 +45,12 @@ public class Menu {
     public void startMenu() {
         System.out.println("[1] CREATE (League, Team, Player)");
         System.out.println("[2] VIEW (League, Team, Player)");
-        System.out.println("[3] JOIN LEAGUE !!! FEATURE NOT YET AVAILABLE !!!");
+        System.out.println("[3] JOIN LEAGUE");
         System.out.println("[0] EXIT");
         System.out.print("Your choice: ");
     }
 
-    public void start() {
+    public void start() throws LeagueNotFoundException, TeamNotFoundException, PlayerNotFoundException {
         header();
 
         while (true) {
@@ -64,7 +66,10 @@ public class Menu {
                     clearScreen();
                     viewMenu();
                 }
-//                case "3" -> joinLeague();
+                case "3" -> {
+                    clearScreen();
+                    joinLeague();
+                }
                 case "0" -> System.exit(0);
                 default -> {
                     System.out.println("You dumb puck, wrong choice, try again!");
@@ -74,7 +79,7 @@ public class Menu {
         }
     }
 
-    public void createMenu() {
+    public void createMenu() throws TeamNotFoundException, PlayerNotFoundException {
 
         while (true) {
             header();
@@ -82,39 +87,139 @@ public class Menu {
             System.out.println("[2] CREATE TEAM");
             System.out.println("[3] CREATE PLAYER");
             System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
 
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> createLeague();
-                case "2" -> createTeam();
-                case "3" -> createPlayer();
+                case "1" -> {
+                    clearScreen();
+                    createLeague();
+                }
+                case "2" -> {
+                    clearScreen();
+                    createTeam();
+                }
+                case "3" -> {
+                    clearScreen();
+                    createPlayer();
+                }
                 case "0" -> {
+                    clearScreen();
                     return;
                 }
                 default -> System.out.println("What the puck! Wrong choice, try again!");
             }
         }
-
     }
 
-    public void createLeague() {
+    public void viewMenu() {
+        while (true) {
+            header();
+            System.out.println("[1] VIEW LEAGUES");
+            System.out.println("[2] VIEW TEAMS");
+            System.out.println("[3] VIEW PLAYERS");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    clearScreen();
+                    viewLeagues();
+                }
+                case "2" -> {
+                    clearScreen();
+                    viewTeams();
+                }
+                case "3" -> {
+                    clearScreen();
+                    viewPlayers();
+                }
+                case "0" -> {
+                    clearScreen();
+                    return;
+                }
+                default -> System.out.println("Quit pucking around, try again!");
+            }
+        }
+    }
+
+    public void joinLeague() throws LeagueNotFoundException, TeamNotFoundException, PlayerNotFoundException {
+        League league = chooseOrCreateLeague();
+
+        if (league == null) {
+            return;
+        }
+
+        Team team = chooseOrCreateTeam();
+
+        if (team == null) {
+            return;
+        }
+
+        leagueService.addTeamToLeague(league.getName(), team.getName());
+
+        System.out.println("Team " + team.getName()
+                + " joined league " + league.getName());
+    }
+
+    public League chooseOrCreateLeague() {
+        while (true) {
+            header();
+            System.out.println("[1] JOIN EXISTING LEAGUE");
+            System.out.println("[2] CREATE LEAGUE TO JOIN");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    clearScreen();
+                    return chooseExistingLeague();
+                }
+                case "2" -> {
+                    clearScreen();
+                    return createLeague();
+                }
+                case "0" -> {
+                    clearScreen();
+                    return null;
+                }
+                default -> System.out.println("What the puck, try again!");
+            }
+        }
+    }
+
+    public League createLeague() {
         header();
         System.out.print("Enter league name: ");
         String leagueName = input.nextLine().toLowerCase();
-        leagueService.createLeague(leagueName);
+        League league = leagueService.createLeague(leagueName);
         System.out.println("League: ´" + leagueName + "´ created!");
+
+        return league;
     }
 
-    public void createTeam() {
+    public Team createTeam() throws TeamNotFoundException, PlayerNotFoundException {
         header();
         System.out.print("Enter team name: ");
         String teamName = input.nextLine().toLowerCase();
-        teamService.createTeam(teamName);
+
+        Team team = teamService.createTeam(teamName);
+
         System.out.println("Team: ´" + teamName + "´ created!");
+
+        addPlayersToTeamMenu(team);
+
+        System.out.println("Team " + team.getName() + " is complete!");
+
+        return team;
     }
 
-    public void createPlayer() {
+    public Player createPlayer() {
         header();
 
         try {
@@ -146,36 +251,17 @@ public class Menu {
 
             System.out.println("Say hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
 
+            return player;
+
         } catch (NumberFormatException e) {
-            System.out.println("You must enter a number.");
+            System.out.println("You must enter a pucking number.");
         } catch (InvalidPlayerException e) {
             System.out.println(e.getMessage());
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid position. Use GOALIE, DEFENDER, CENTER, LEFT_WING or RIGHT_WING.");
         }
 
-    }
-
-    public void viewMenu() {
-        while (true) {
-            header();
-            System.out.println("[1] VIEW LEAGUES");
-            System.out.println("[2] VIEW TEAMS");
-            System.out.println("[3] VIEW PLAYERS");
-            System.out.println("[0] BACK");
-
-            String choice = input.nextLine();
-
-            switch (choice) {
-                case "1" -> viewLeagues();
-                case "2" -> viewTeams();
-                case "3" -> viewPlayers();
-                case "0" -> {
-                    return;
-                }
-                default -> System.out.println("Quit pucking around, try again!");
-            }
-        }
+        return null;
     }
 
     public void viewPlayers() {
@@ -192,6 +278,57 @@ public class Menu {
         }
     }
 
+    private void addPlayersToTeamMenu(Team team) throws TeamNotFoundException, PlayerNotFoundException {
+        while (true) {
+            header();
+            System.out.println("Add players to " + team.getName());
+            System.out.println("[1] ADD EXISTING PLAYER");
+            System.out.println("[2] CREATE NEW PLAYER AND ADD");
+            System.out.println("[0] DONE");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    clearScreen();
+                    addExistingPlayerToTeam(team);
+                }
+                case "2" -> {
+                    clearScreen();
+                    Player player = createPlayer();
+
+                    if (player != null) {
+                        teamService.addPlayerToTeam(team.getName(), player.getPlayerId());
+                        System.out.println(player.getFullName() + " added to " + team.getName());
+                    }
+                }
+                case "0" -> {
+                    clearScreen();
+                    return;
+                }
+                default -> System.out.println("Wrong choice, try again!");
+            }
+        }
+    }
+
+
+    private void addExistingPlayerToTeam(Team team) {
+        header();
+
+        viewPlayers();
+
+        System.out.print("Enter player id: ");
+        int playerId = Integer.parseInt(input.nextLine());
+
+        try {
+            teamService.addPlayerToTeam(team.getName(), playerId);
+            System.out.println("Player added to " + team.getName());
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
     public void viewTeams() {
         header();
 
@@ -205,6 +342,66 @@ public class Menu {
 
         for (League league : leagueService.getAllLeagues()) {
             System.out.println(league.getName());
+        }
+    }
+
+    private League chooseExistingLeague() {
+        header();
+
+        viewLeagues();
+
+        System.out.print("Enter league name: ");
+        String leagueName = input.nextLine().toLowerCase();
+
+        try {
+            return leagueService.getLeagueByName(leagueName);
+        } catch (Exception e) {
+            System.out.println("League not found.");
+            return null;
+        }
+    }
+
+    private Team chooseOrCreateTeam() throws TeamNotFoundException, PlayerNotFoundException {
+        while (true) {
+            header();
+            System.out.println("[1] USE EXISTING TEAM");
+            System.out.println("[2] CREATE NEW TEAM");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    clearScreen();
+                    return chooseExistingTeam();
+                }
+                case "2" -> {
+                    clearScreen();
+                    return createTeam();
+                }
+                case "0" -> {
+                    clearScreen();
+                    return null;
+                }
+                default -> System.out.println("Wrong choice, try again!");
+            }
+        }
+    }
+
+    private Team chooseExistingTeam() {
+        header();
+
+        viewTeams();
+
+        System.out.print("Enter team name: ");
+        String teamName = input.nextLine().toLowerCase();
+
+        try {
+            return teamService.getTeamByName(teamName);
+        } catch (Exception e) {
+            System.out.println("Team not found.");
+            return null;
         }
     }
 
