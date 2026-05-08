@@ -64,7 +64,10 @@ public class Menu {
                     clearScreen();
                     viewMenu();
                 }
-//                case "3" -> joinLeague();
+                case "3" -> {
+                    clearScreen();
+                    joinLeague();
+                }
                 case "0" -> System.exit(0);
                 default -> {
                     System.out.println("You dumb puck, wrong choice, try again!");
@@ -96,6 +99,48 @@ public class Menu {
             }
         }
 
+    }
+
+    public void viewMenu() {
+        while (true) {
+            header();
+            System.out.println("[1] VIEW LEAGUES");
+            System.out.println("[2] VIEW TEAMS");
+            System.out.println("[3] VIEW PLAYERS");
+            System.out.println("[0] BACK");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> viewLeagues();
+                case "2" -> viewTeams();
+                case "3" -> viewPlayers();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("Quit pucking around, try again!");
+            }
+        }
+    }
+
+    public void joinLeague() {
+        while (true) {
+            header();
+            System.out.println("[1] JOIN EXISTING LEAGUE");
+            System.out.println("[2] CREATE LEAGUE TO JOIN");
+            System.out.println("[0] BACK");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> createLeague();
+                case "2" -> viewLeagues();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("What the puck, try again!");
+            }
+        }
     }
 
     public void createLeague() {
@@ -154,28 +199,6 @@ public class Menu {
             System.out.println("Invalid position. Use GOALIE, DEFENDER, CENTER, LEFT_WING or RIGHT_WING.");
         }
 
-    }
-
-    public void viewMenu() {
-        while (true) {
-            header();
-            System.out.println("[1] VIEW LEAGUES");
-            System.out.println("[2] VIEW TEAMS");
-            System.out.println("[3] VIEW PLAYERS");
-            System.out.println("[0] BACK");
-
-            String choice = input.nextLine();
-
-            switch (choice) {
-                case "1" -> viewLeagues();
-                case "2" -> viewTeams();
-                case "3" -> viewPlayers();
-                case "0" -> {
-                    return;
-                }
-                default -> System.out.println("Quit pucking around, try again!");
-            }
-        }
     }
 
     public void viewPlayers() {
