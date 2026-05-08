@@ -15,7 +15,7 @@ public class Player {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int playerId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, length = 50)
     private String fullName;
 
     @ManyToMany(mappedBy = "players")
@@ -26,6 +26,8 @@ public class Player {
     private Position position;
 
     @Column(nullable = false)
+    @Min(1)
+    @Max(98)
     private int jerseyNr;
 
     // stats / ratings
@@ -54,6 +56,7 @@ public class Player {
     @Max(100)
     private int snusing;
 
+    @Column(nullable = false)
     private int salary;
 
     public Player() {
@@ -63,7 +66,6 @@ public class Player {
                   int refereeHeckling, int beerChugging, int diving,
                   int swag, int snusing) {
 
-        this.playerId = playerId;
         this.fullName = fullName;
         this.position = position;
         this.jerseyNr = jerseyNr;
@@ -76,8 +78,7 @@ public class Player {
         + beerChugging
         + diving
         + swag
-        +snusing)
-        * 16500;
+        +snusing) * 16500;
     }
 
     public int getPlayerId() {
