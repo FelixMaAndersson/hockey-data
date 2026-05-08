@@ -83,6 +83,8 @@ public class PlayerManagementService {
     }
 
 
+
+
     private void validateJerseyNumber(int jerseyNr, String fullName) {
 
         if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {

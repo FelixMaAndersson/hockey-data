@@ -8,7 +8,6 @@ import se.yrgo.domain.League;
 import se.yrgo.domain.Team;
 import se.yrgo.exceptions.LeagueNotFoundException;
 
-import java.sql.SQLOutput;
 import java.util.List;
 
 @Service
@@ -22,9 +21,10 @@ public class LeagueManagementService {
         this.dao = dao;
     }
 
-    public void createLeague(String name) {
+    public League createLeague(String name) {
         League league = new League(name);
         dao.create(league);
+        return league;
     }
 
     public void updateLeagueName(String oldName, String newName) throws LeagueNotFoundException {
