@@ -34,7 +34,6 @@ public class Menu {
         this.playerService = playerService;
     }
 
-
     public void header() {
         System.out.println("-------------------------------------------");
         System.out.println("   Strange Quality Hockey League - SQHL   ");
@@ -112,7 +111,6 @@ public class Menu {
                 default -> System.out.println("What the puck! Wrong choice, try again!");
             }
         }
-
     }
 
     public void viewMenu() {
@@ -192,8 +190,6 @@ public class Menu {
                 }
                 default -> System.out.println("What the puck, try again!");
             }
-
-
         }
     }
 
