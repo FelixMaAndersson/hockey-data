@@ -6,6 +6,10 @@ import se.yrgo.exceptions.LeagueNotFoundException;
 
 import java.util.List;
 
+/**
+ * Interface defining data access operations for League entities.
+ * Implementations handle the communication with the database.
+ */
 public interface LeagueDao {
 
     public void create(League league);

@@ -61,19 +61,15 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
                     createMenu();
                 }
                 case "2" -> {
-                    clearScreen();
                     viewMenu();
                 }
                 case "3" -> {
-                    clearScreen();
                     joinLeague();
                 }
                 case "4" -> {
-                    clearScreen();
                     editMenu();
                 }
                 case "0" -> System.exit(0);
@@ -99,19 +95,15 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
                     createLeague();
                 }
                 case "2" -> {
-                    clearScreen();
                     createTeam();
                 }
                 case "3" -> {
-                    clearScreen();
                     createPlayer();
                 }
                 case "0" -> {
-                    clearScreen();
                     return;
                 }
                 default -> System.out.println("What the puck! Wrong choice, try again!");
@@ -132,19 +124,15 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
                     viewLeagues();
                 }
                 case "2" -> {
-                    clearScreen();
                     viewTeams();
                 }
                 case "3" -> {
-                    clearScreen();
                     viewPlayers();
                 }
                 case "0" -> {
-                    clearScreen();
                     return;
                 }
                 default -> System.out.println("Quit pucking around, try again!");
@@ -183,15 +171,12 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
                     return chooseExistingLeague();
                 }
                 case "2" -> {
-                    clearScreen();
                     return createLeague();
                 }
                 case "0" -> {
-                    clearScreen();
                     return null;
                 }
                 default -> System.out.println("What the puck, try again!");
@@ -304,11 +289,9 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
                     addExistingPlayerToTeam(team);
                 }
                 case "2" -> {
-                    clearScreen();
                     Player player = createPlayer();
 
                     if (player != null) {
@@ -318,7 +301,6 @@ public class Menu {
                     }
                 }
                 case "0" -> {
-                    clearScreen();
                     return;
                 }
                 default -> System.out.println("Wrong choice, try again!");
@@ -398,15 +380,12 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
                     return chooseExistingTeam();
                 }
                 case "2" -> {
-                    clearScreen();
                     return createTeam();
                 }
                 case "0" -> {
-                    clearScreen();
                     return null;
                 }
                 default -> System.out.println("Wrong choice, try again!");
@@ -430,7 +409,7 @@ public class Menu {
         }
     }
 
-    public void editMenu() {
+    public void editMenu() throws LeagueNotFoundException {
         while (true) {
             header();
             System.out.println("[1] EDIT LEAGUE");
@@ -443,19 +422,15 @@ public class Menu {
 
             switch (choice) {
                 case "1" -> {
-                    clearScreen();
-                    editLeague();
+                    editOrRemoveLeague();
                 }
                 case "2" -> {
-                    clearScreen();
-                    editTeam();
+                    editOrRemoveTeam();
                 }
                 case "3" -> {
-                    clearScreen();
-                    editPlayer();
+                    editOrRemovePlayer();
                 }
                 case "0" -> {
-                    clearScreen();
                     return;
                 }
                 default -> System.out.println("Wrong choice, try again!");
@@ -463,7 +438,148 @@ public class Menu {
         }
     }
 
-    public void editLeague() {
+    public void editOrRemoveLeague() throws LeagueNotFoundException {
+        while (true) {
+            header();
+            System.out.println("[1] EDIT LEAGUE");
+            System.out.println("[2] REMOVE LEAGUE");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> editLeague();
+                case "2" -> removeLeague();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("Wrong choice, try again!");
+            }
+        }
+    }
+
+    public void editOrRemoveTeam() {
+        while (true) {
+            header();
+            System.out.println("[1] EDIT TEAM");
+            System.out.println("[2] REMOVE TEAM");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> editTeam();
+                case "2" -> removeTeam();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("Wrong choice, try again!");
+            }
+        }
+    }
+
+    public void editOrRemovePlayer() {
+        while (true) {
+            header();
+            System.out.println("[1] EDIT PLAYER");
+            System.out.println("[2] REMOVE PLAYER");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> editPlayer();
+                case "2" -> removePlayer();
+                case "0" -> {
+                    return;
+                }
+                default -> System.out.println("Wrong choice, try again!");
+            }
+        }
+    }
+
+    public void removeLeague() {
+        header();
+
+        if (leagueService.getAllLeagues().isEmpty()) {
+            System.out.println("OH puck, no league has been registered...");
+            pressEnterToContinue();
+            return;
+        }
+
+        viewLeagues();
+
+        System.out.print("Enter league name to remove: ");
+        String name = input.nextLine().toLowerCase();
+
+        try {
+            leagueService.deleteLeague(name);
+            System.out.println("League '" + name + "' removed!");
+        } catch (LeagueNotFoundException e) {
+            System.out.println(name + " is not an existing league");
+        }
+
+        pressEnterToContinue();
+    }
+
+    public void removeTeam() {
+        header();
+
+        if (teamService.getAllTeams().isEmpty()) {
+            System.out.println("OH puck, no team has been registered...");
+            pressEnterToContinue();
+            return;
+        }
+
+        viewTeams();
+
+        System.out.print("Enter team name to remove (0 to go back): ");
+        String name = input.nextLine().toLowerCase();
+
+        try {
+            Team team = teamService.getTeamByName(name);
+
+            teamService.deleteTeam(team);
+            System.out.println("Team '" + name + "' removed!");
+        } catch (TeamNotFoundException e) {
+            System.out.println(name + " is not an existing team");
+        }
+
+        pressEnterToContinue();
+    }
+
+    public void removePlayer() {
+        header();
+
+        if (playerService.getAllPlayers().isEmpty()) {
+            System.out.println("OH puck, no player has been registered...");
+            pressEnterToContinue();
+            return;
+        }
+
+        viewPlayers();
+
+        System.out.print("Enter player id to remove: ");
+        String idInput = input.nextLine();
+
+        try {
+            int playerId = Integer.parseInt(idInput);
+            playerService.deletePlayer(playerId);
+            System.out.println("Player removed!");
+        } catch (NumberFormatException e) {
+            System.out.println("You must enter a pucking number.");
+        } catch (PlayerNotFoundException e) {
+            System.out.println("Player not found!");
+        }
+
+        pressEnterToContinue();
+    }
+
+
+    public void editLeague() throws LeagueNotFoundException {
         header();
 
         if (leagueService.getAllLeagues().isEmpty()) {
@@ -472,17 +588,19 @@ public class Menu {
         }
         viewLeagues();
 
-        System.out.print("Enter league name to edit: ");
-        String oldName = input.nextLine().toLowerCase();
-
-        System.out.print("Enter new name: ");
-        String newName = input.nextLine().toLowerCase();
+        String oldName = "";
 
         try {
+            System.out.print("Enter league name to edit: ");
+            oldName = input.nextLine().toLowerCase();
+
+            System.out.print("Enter new name: ");
+            String newName = input.nextLine().toLowerCase();
+
             leagueService.updateLeagueName(oldName, newName);
             System.out.println("League updated to: " + newName);
-        } catch (Exception e) {
-            System.out.println("League not found: " + oldName);
+        } catch (LeagueNotFoundException e) {
+            System.out.println(oldName + " is not an existing league!");
         }
 
         pressEnterToContinue();
@@ -498,17 +616,19 @@ public class Menu {
 
         viewTeams();
 
-        System.out.print("Enter team name to edit: ");
-        String oldName = input.nextLine().toLowerCase();
-
-        System.out.print("Enter new name: ");
-        String newName = input.nextLine().toLowerCase();
+        String oldName = "";
 
         try {
+            System.out.print("Enter team name to edit: ");
+            oldName = input.nextLine().toLowerCase();
+
+            System.out.print("Enter new name: ");
+            String newName = input.nextLine().toLowerCase();
+
             teamService.updateTeamName(oldName, newName);
             System.out.println("Team updated to: " + newName);
-        } catch (Exception e) {
-            System.out.println("Team not found: " + oldName);
+        } catch (TeamNotFoundException e) {
+            System.out.println(oldName + " is not an existing team!");
         }
 
         pressEnterToContinue();
@@ -527,6 +647,8 @@ public class Menu {
         try {
             System.out.print("Enter player id to edit: ");
             int playerId = Integer.parseInt(input.nextLine());
+
+            Player player = playerService.getPlayerById(playerId);
 
             header();
             System.out.print("New full name: ");
@@ -557,6 +679,8 @@ public class Menu {
                     refereeHeckling, beerChugging, diving, swag, snusing);
 
             System.out.println("Player updated!");
+            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
+
 
         } catch (NumberFormatException e) {
             System.out.println("You must enter a pucking number.");
@@ -565,7 +689,7 @@ public class Menu {
         } catch (IllegalArgumentException e) {
             System.out.println("Invalid position. Use GOALIE, DEFENDER, CENTER, LEFT_WING or RIGHT_WING.");
         } catch (PlayerNotFoundException e) {
-            System.out.println("Player not found!");
+            System.out.println("Not an existing player!");
         }
 
         pressEnterToContinue();
@@ -576,9 +700,5 @@ public class Menu {
         input.nextLine();
     }
 
-    public void clearScreen() {
-        System.out.print("\033[H\033[2J");
-        System.out.flush();
-    }
 
 }

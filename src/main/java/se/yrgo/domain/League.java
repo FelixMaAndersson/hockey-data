@@ -1,11 +1,14 @@
 package se.yrgo.domain;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Max;
 
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Represents a hockey league.
+ * One league contains multiple teams (one-to-many relationship)
+ */
 @Entity
 public class League {
 
@@ -14,12 +17,21 @@ public class League {
     private int id;
     private String name;
 
+    /**
+     * A league can have many teams.
+     * CascadeType.ALL means all operations (persist, merge, remove) are cascaded to teams.
+     */
     @OneToMany(mappedBy = "league", cascade = CascadeType.ALL)
     private List<Team> teams = new ArrayList<>();
 
     public League() {
     }
 
+    /**
+     * Creates a new league with the given name.
+     *
+     * @param name the name of the league
+     */
     public League(String name) {
         this.name = name;
     }
