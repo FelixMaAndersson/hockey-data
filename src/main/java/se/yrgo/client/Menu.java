@@ -14,6 +14,7 @@ import se.yrgo.services.players.PlayerManagementService;
 import se.yrgo.services.teams.TeamManagementService;
 import se.yrgo.exceptions.InvalidPlayerException;
 
+import java.util.List;
 import java.util.Scanner;
 
 @Component
@@ -38,7 +39,6 @@ public class Menu {
         System.out.println("-------------------------------------------");
         System.out.println("   Strange Quality Hockey League - SQHL   ");
         System.out.println("-------------------------------------------");
-        System.out.println("To exit, press [0] at anytime");
         System.out.println();
     }
 
@@ -46,12 +46,14 @@ public class Menu {
         System.out.println("[1] CREATE (League, Team, Player)");
         System.out.println("[2] VIEW (League, Team, Player)");
         System.out.println("[3] JOIN LEAGUE");
+        System.out.println("[4] EDIT (League, Team, Player)");
         System.out.println("[0] EXIT");
         System.out.print("Your choice: ");
     }
 
     public void start() throws LeagueNotFoundException, TeamNotFoundException, PlayerNotFoundException {
         header();
+        System.out.println("Press [0] to EXIT\n");
 
         while (true) {
             startMenu();
@@ -69,6 +71,10 @@ public class Menu {
                 case "3" -> {
                     clearScreen();
                     joinLeague();
+                }
+                case "4" -> {
+                    clearScreen();
+                    editMenu();
                 }
                 case "0" -> System.exit(0);
                 default -> {
@@ -267,6 +273,13 @@ public class Menu {
     public void viewPlayers() {
         header();
 
+        List<Player> players = playerService.getAllPlayers();
+
+        if (players.isEmpty()) {
+            System.out.println("OH puck, no player has been registered...");
+            return;
+        }
+
         for (Player player : playerService.getAllPlayers()) {
             System.out.println(player.getPlayerId()
                     + " - "
@@ -332,7 +345,13 @@ public class Menu {
     public void viewTeams() {
         header();
 
-        for (Team team : teamService.getAllTeams()) {
+        List<Team> teams = teamService.getAllTeams();
+
+        if (teams.isEmpty()) {
+            System.out.println("OH puck, no team has been registered...");
+            return;
+        }
+        for (Team team : teams) {
             System.out.println(team.getName());
         }
     }
@@ -340,7 +359,13 @@ public class Menu {
     public void viewLeagues() {
         header();
 
-        for (League league : leagueService.getAllLeagues()) {
+        List<League> leagues = leagueService.getAllLeagues();
+
+        if (leagues.isEmpty()) {
+            System.out.println("OH puck, no league has been registered...");
+            return;
+        }
+        for (League league : leagues) {
             System.out.println(league.getName());
         }
     }
@@ -403,6 +428,152 @@ public class Menu {
             System.out.println("Team not found.");
             return null;
         }
+    }
+
+    public void editMenu() {
+        while (true) {
+            header();
+            System.out.println("[1] EDIT LEAGUE");
+            System.out.println("[2] EDIT TEAM");
+            System.out.println("[3] EDIT PLAYER");
+            System.out.println("[0] BACK");
+            System.out.print("Your choice: ");
+
+            String choice = input.nextLine();
+
+            switch (choice) {
+                case "1" -> {
+                    clearScreen();
+                    editLeague();
+                }
+                case "2" -> {
+                    clearScreen();
+                    editTeam();
+                }
+                case "3" -> {
+                    clearScreen();
+                    editPlayer();
+                }
+                case "0" -> {
+                    clearScreen();
+                    return;
+                }
+                default -> System.out.println("Wrong choice, try again!");
+            }
+        }
+    }
+
+    public void editLeague() {
+        header();
+
+        if (leagueService.getAllLeagues().isEmpty()) {
+            System.out.println("OH puck, no league has been registered...");
+            return;
+        }
+        viewLeagues();
+
+        System.out.print("Enter league name to edit: ");
+        String oldName = input.nextLine().toLowerCase();
+
+        System.out.print("Enter new name: ");
+        String newName = input.nextLine().toLowerCase();
+
+        try {
+            leagueService.updateLeagueName(oldName, newName);
+            System.out.println("League updated to: " + newName);
+        } catch (Exception e) {
+            System.out.println("League not found: " + oldName);
+        }
+
+        pressEnterToContinue();
+    }
+
+    public void editTeam() {
+        header();
+
+        if (teamService.getAllTeams().isEmpty()) {
+            System.out.println("OH puck, no team has been registered...");
+            return;
+        }
+
+        viewTeams();
+
+        System.out.print("Enter team name to edit: ");
+        String oldName = input.nextLine().toLowerCase();
+
+        System.out.print("Enter new name: ");
+        String newName = input.nextLine().toLowerCase();
+
+        try {
+            teamService.updateTeamName(oldName, newName);
+            System.out.println("Team updated to: " + newName);
+        } catch (Exception e) {
+            System.out.println("Team not found: " + oldName);
+        }
+
+        pressEnterToContinue();
+    }
+
+    public void editPlayer() {
+        header();
+
+        if (playerService.getAllPlayers().isEmpty()) {
+            System.out.println("OH puck, no player has been registered...");
+            return;
+        }
+
+        viewPlayers();
+
+        try {
+            System.out.print("Enter player id to edit: ");
+            int playerId = Integer.parseInt(input.nextLine());
+
+            header();
+            System.out.print("New full name: ");
+            String fullName = input.nextLine();
+
+            System.out.print("New position (GOALIE, DEFENDER, CENTER, LEFT_WING, RIGHT_WING): ");
+            Position position = Position.valueOf(input.nextLine().toUpperCase());
+
+            System.out.print("New jersey number: ");
+            int jerseyNr = Integer.parseInt(input.nextLine());
+
+            System.out.print("Referee heckling (1-100): ");
+            int refereeHeckling = Integer.parseInt(input.nextLine());
+
+            System.out.print("Beer chugging (1-100): ");
+            int beerChugging = Integer.parseInt(input.nextLine());
+
+            System.out.print("Diving (1-100): ");
+            int diving = Integer.parseInt(input.nextLine());
+
+            System.out.print("Swag (1-100): ");
+            int swag = Integer.parseInt(input.nextLine());
+
+            System.out.print("Snusing (1-100): ");
+            int snusing = Integer.parseInt(input.nextLine());
+
+            playerService.updatePlayer(playerId, fullName, position, jerseyNr,
+                    refereeHeckling, beerChugging, diving, swag, snusing);
+
+            System.out.println("Player updated!");
+
+        } catch (NumberFormatException e) {
+            System.out.println("You must enter a pucking number.");
+        } catch (InvalidPlayerException e) {
+            System.out.println(e.getMessage());
+        } catch (IllegalArgumentException e) {
+            System.out.println("Invalid position. Use GOALIE, DEFENDER, CENTER, LEFT_WING or RIGHT_WING.");
+        } catch (PlayerNotFoundException e) {
+            System.out.println("Player not found!");
+        }
+
+        pressEnterToContinue();
+    }
+
+    public void pressEnterToContinue() {
+        System.out.println("\nPress ENTER to continue...");
+        input.nextLine();
     }
 
     public void clearScreen() {

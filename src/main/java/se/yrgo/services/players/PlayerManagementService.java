@@ -56,7 +56,20 @@ public class PlayerManagementService {
     }
 
     @Transactional
-    public void updatePlayer(Player player) throws PlayerNotFoundException {
+    public void updatePlayer(int playerId, String fullName, Position position,
+                             int jerseyNr, int refereeHeckling, int beerChugging,
+                             int diving, int swag, int snusing) throws PlayerNotFoundException {
+
+        Player player = dao.getById(playerId);
+        player.setFullName(fullName);
+        player.setPosition(position);
+        player.setJerseyNr(jerseyNr);
+        player.setRefereeHeckling(refereeHeckling);
+        player.setBeerChugging(beerChugging);
+        player.setDiving(diving);
+        player.setSwag(swag);
+        player.setSnusing(snusing);
+
         validatePlayer(player);
         dao.update(player);
     }
@@ -81,9 +94,6 @@ public class PlayerManagementService {
     public List<Player> getPlayerByName(String name) {
         return dao.getPlayerByName(name);
     }
-
-
-
 
     private void validateJerseyNumber(int jerseyNr, String fullName) {
 
