@@ -255,7 +255,7 @@ public class Menu {
 
             Player player = playerService.createPlayer(fullName, position, jerseyNr, refereeHeckling, beerChugging, diving, swag, snusing);
 
-            System.out.println("Say hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
+            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
 
             return player;
 
@@ -313,6 +313,7 @@ public class Menu {
 
                     if (player != null) {
                         teamService.addPlayerToTeam(team.getName(), player.getPlayerId());
+                        System.out.println();
                         System.out.println(player.getFullName() + " added to " + team.getName());
                     }
                 }
@@ -324,7 +325,6 @@ public class Menu {
             }
         }
     }
-
 
     private void addExistingPlayerToTeam(Team team) {
         header();
