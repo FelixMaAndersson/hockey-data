@@ -83,15 +83,6 @@ public class PlayerDaoImpl implements PlayerDao {
                 .getResultList();
     }
 
-    @Override
-    public List<Player> getBySalary(int salary) {
-
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.salary = :salary",
-                        Player.class)
-                .setParameter("salary", salary)
-                .getResultList();
-    }
 
     @Override
     public List<Player> getPlayerByName(String name) {

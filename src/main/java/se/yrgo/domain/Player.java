@@ -89,10 +89,6 @@ public class Player {
         return fullName;
     }
 
-    public List<Team> getTeams() {
-        return teams;
-    }
-
     public Position getPosition() {
         return position;
     }
@@ -155,10 +151,6 @@ public class Player {
 
     public void setSnusing(int snusing) {
         this.snusing = snusing;
-    }
-
-    public void setSalary(int salary) {
-        this.salary = salary;
     }
 
     @Override

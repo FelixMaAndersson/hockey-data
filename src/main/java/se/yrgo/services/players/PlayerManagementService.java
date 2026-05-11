@@ -80,21 +80,6 @@ public class PlayerManagementService {
         dao.delete(player);
     }
 
-    @Transactional(readOnly = true)
-    public List<Player> getPlayersByPosition(Position position) {
-        return dao.getPlayersByPosition(position);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary) {
-        return dao.getPlayersBySalaryRange(minSalary, maxSalary);
-    }
-
-    @Transactional(readOnly = true)
-    public List<Player> getPlayerByName(String name) {
-        return dao.getPlayerByName(name);
-    }
-
     private void validateJerseyNumber(int jerseyNr, String fullName) {
 
         if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {

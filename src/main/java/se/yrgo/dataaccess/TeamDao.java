@@ -19,7 +19,5 @@ public interface TeamDao {
     void delete(Team team) throws TeamNotFoundException;
 
     List<Team> getAllTeams();
-
-    List<Player> getAllPlayers(long teamId) throws TeamNotFoundException;
 }
 

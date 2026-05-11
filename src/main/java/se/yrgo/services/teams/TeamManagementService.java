@@ -38,11 +38,6 @@ public class TeamManagementService {
         return team;
     }
 
-    // UPDATE
-    public void updateTeam(Team team) throws TeamNotFoundException {
-        teamDao.update(team);
-    }
-
     @Transactional
     public void updateTeamName(String oldName, String newName) throws TeamNotFoundException {
         Team team = teamDao.getByName(oldName);
@@ -122,9 +117,5 @@ public class TeamManagementService {
 
     public Team getTeamByName(String teamName) throws TeamNotFoundException {
         return teamDao.getByName(teamName);
-    }
-
-    public Team getTeamById(int id) throws TeamNotFoundException {
-        return teamDao.getById(id);
     }
 }
