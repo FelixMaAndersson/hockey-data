@@ -81,6 +81,7 @@ public class PlayerManagementService {
         dao.delete(player);
     }
 
+
     private void validateJerseyNumber(int jerseyNr, String fullName) {
 
         if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {
@@ -88,7 +89,7 @@ public class PlayerManagementService {
                     "Who do you think you are?! You're not Wayne Gretzky");
         } else if (jerseyNr < 1 || jerseyNr > 99) {
             throw new InvalidPlayerException(
-                    "Jersey number must be between 1 and 98");
+                    "Jersey number must be between 1 and 99");
         }
     }
 

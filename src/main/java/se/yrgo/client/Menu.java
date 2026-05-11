@@ -718,7 +718,7 @@ public class Menu {
                     refereeHeckling, beerChugging, diving, swag, snusing);
 
             System.out.println("Player updated!");
-            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
+            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getFormattedSalary());
 
 
         } catch (NumberFormatException e) {

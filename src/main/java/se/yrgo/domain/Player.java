@@ -25,7 +25,7 @@ public class Player {
 
     @Column(nullable = false)
     @Min(1)
-    @Max(98)
+    @Max(99)
     private int jerseyNr;
 
     // stats / ratings
@@ -118,6 +118,11 @@ public class Player {
     public int getSalary() {
         return salary;
     }
+
+    public String getFormattedSalary() {
+        return String.format("%,d", getSalary());
+    }
+
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
