@@ -10,6 +10,11 @@ import se.yrgo.exceptions.PlayerNotFoundException;
 
 import java.util.List;
 
+/**
+ * JPA implementation of PlayerDao.
+ *
+ * Handles database operations for Player entities.
+ */
 @Repository
 public class PlayerDaoImpl implements PlayerDao {
 
@@ -66,6 +71,9 @@ public class PlayerDaoImpl implements PlayerDao {
                 .setParameter("playerId", managedPlayer.getPlayerId())
                 .getResultList();
 
+        // Remove the player from all teams before deleting,
+        // otherwise the many-to-many relationship would violate
+        // foreign key constraints.
         for (Team team : teams) {
             team.removePlayer(managedPlayer);
         }
