@@ -44,6 +44,13 @@ public class TeamManagementService {
         teamDao.update(team);
     }
 
+    @Transactional
+    public void updateTeamName(String oldName, String newName) throws TeamNotFoundException {
+        Team team = teamDao.getByName(oldName);
+        team.setName(newName);
+        teamDao.update(team);
+    }
+
     // DELETE
     public void deleteTeam(Team team) throws TeamNotFoundException {
         teamDao.delete(team);
