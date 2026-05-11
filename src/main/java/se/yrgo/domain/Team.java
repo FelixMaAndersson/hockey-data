@@ -1,11 +1,8 @@
 package se.yrgo.domain;
 
 import jakarta.persistence.*;
-
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 @Entity
 public class Team {
@@ -29,6 +26,7 @@ public class Team {
     private List<Player> players = new ArrayList<>();
 
     public static final int MAX_TEAM_SALARY = 24_997_500;
+    public static final int MAX_PLAYERS = 6;
 
 
     public int getTotalSalary() {
@@ -85,6 +83,49 @@ public class Team {
 
     public void addPlayer(Player player) {
         players.add(player);
+    }
+
+    public long countPlayersByPosition(Position position) {
+        long count = 0;
+
+        for (Player player : players) {
+            if (player.getPosition() == position) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
+    public long getRemainingForwards() {
+        long forwards =
+                countPlayersByPosition(Position.CENTER)
+                        + countPlayersByPosition(Position.LEFT_WING)
+                        + countPlayersByPosition(Position.RIGHT_WING);
+
+        return 3 - forwards;
+    }
+
+    public long getRemainingDefenders() {
+        return 2 - countPlayersByPosition(Position.DEFENDER);
+    }
+
+    public long getRemainingGoalies() {
+        return 1 - countPlayersByPosition(Position.GOALIE);
+    }
+
+    public boolean hasRoomFor(Player player) {
+        Position pos = player.getPosition();
+
+        if (pos == Position.DEFENDER) {
+            return getRemainingDefenders() > 0;
+        }
+
+        if (pos == Position.GOALIE) {
+            return getRemainingGoalies() > 0;
+        }
+
+        return getRemainingForwards() > 0;
     }
 
     @Override
