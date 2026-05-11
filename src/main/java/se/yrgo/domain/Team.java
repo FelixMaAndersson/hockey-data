@@ -85,6 +85,10 @@ public class Team {
         players.add(player);
     }
 
+    public void removePlayer(Player player) {
+        players.remove(player);
+    }
+
     public long countPlayersByPosition(Position position) {
         long count = 0;
 
