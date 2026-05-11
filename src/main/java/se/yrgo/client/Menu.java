@@ -14,9 +14,7 @@ import se.yrgo.services.players.PlayerManagementService;
 import se.yrgo.services.teams.TeamManagementService;
 import se.yrgo.exceptions.InvalidPlayerException;
 
-import java.text.NumberFormat;
 import java.util.List;
-import java.util.Locale;
 import java.util.Scanner;
 
 @Component

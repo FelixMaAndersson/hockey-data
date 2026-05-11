@@ -73,17 +73,6 @@ public class LeagueManagementService {
     }
 
     /**
-     * Retrieves a league by its ID.
-     *
-     * @param id the ID of the league
-     * @return the matching league
-     * @throws LeagueNotFoundException if no league with the given ID exists
-     */
-    public League getLeagueById(int id) throws LeagueNotFoundException {
-        return dao.getById(id);
-    }
-
-    /**
      * Retrieves a league by its name.
      *
      * @param name the name of the league
@@ -101,16 +90,6 @@ public class LeagueManagementService {
      */
     public List<League> getAllLeagues() {
         return dao.getAllLeagues();
-    }
-
-    /**
-     * Returns all leagues stored in the database.
-     *
-     * @return list of all leagues, empty list if none found
-     */
-    public List<Team> getTeamsInLeague(String name) throws LeagueNotFoundException {
-        League league = dao.getByName(name);
-        return dao.getAllTeams(league.getId());
     }
 
     /**

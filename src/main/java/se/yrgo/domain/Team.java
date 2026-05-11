@@ -67,10 +67,6 @@ public class Team {
         return name;
     }
 
-    public League getLeague() {
-        return league;
-    }
-
     public List<Player> getPlayers() {
         return players;
     }

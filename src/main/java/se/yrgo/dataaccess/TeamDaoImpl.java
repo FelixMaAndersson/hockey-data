@@ -69,14 +69,4 @@ public class TeamDaoImpl implements TeamDao {
         return em.createQuery("SELECT t FROM Team t", Team.class)
                 .getResultList();
     }
-
-    @Override
-    public List<Player> getAllPlayers(long teamId) throws TeamNotFoundException {
-        Team team = em.find(Team.class, teamId);
-        if (team == null) {
-            throw new TeamNotFoundException(teamId);
-        }
-
-        return team.getPlayers();
-    }
 }
