@@ -2,7 +2,9 @@ package se.yrgo.domain;
 
 import jakarta.persistence.*;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 public class Team {
@@ -23,7 +25,7 @@ public class Team {
             joinColumns = @JoinColumn(name = "TEAM_ID"),
             inverseJoinColumns = @JoinColumn(name = "PLAYER_ID")
     )
-    private List<Player> players = new ArrayList<>();
+    private Set<Player> players = new HashSet<>();
 
     public static final int MAX_TEAM_SALARY = 24_997_500;
     public static final int MAX_PLAYERS = 6;
@@ -65,7 +67,7 @@ public class Team {
         return name;
     }
 
-    public List<Player> getPlayers() {
+    public Set<Player> getPlayers() {
         return players;
     }
 

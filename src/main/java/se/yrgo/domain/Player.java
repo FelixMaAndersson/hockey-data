@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Player {
@@ -19,7 +17,7 @@ public class Player {
     private String fullName;
 
     @ManyToMany(mappedBy = "players")
-    private List<Team> teams = new ArrayList<>();
+    private Set<Team> teams = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)

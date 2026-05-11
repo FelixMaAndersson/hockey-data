@@ -10,6 +10,7 @@ import se.yrgo.exceptions.TeamNotFoundException;
 import se.yrgo.exceptions.PlayerNotFoundException;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 @Transactional
@@ -56,7 +57,7 @@ public class TeamManagementService {
         Team team = teamDao.getByName(teamName);
         Player player = playerDao.getById(playerId);
 
-        List<Player> players = team.getPlayers();
+        Set<Player> players = team.getPlayers();
 
         if (!team.hasRoomFor(player)) {
             throw new RuntimeException(
