@@ -23,18 +23,23 @@ public class TeamDaoImpl implements TeamDao {
 
     @Override
     public Team getById(long teamId) throws TeamNotFoundException {
-        Team team = em.find(Team.class, teamId);
-        if (team == null) {
+        try {
+            return em.createQuery(
+                            "SELECT t FROM Team t LEFT JOIN FETCH t.players WHERE t.id = :id",
+                            Team.class)
+                    .setParameter("id", teamId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
             throw new TeamNotFoundException(teamId);
         }
-        return team;
     }
 
     @Override
     public Team getByName(String name) throws TeamNotFoundException {
         try {
             return em.createQuery(
-                    "SELECT t FROM Team t WHERE t.name = :name", Team.class)
+                            "SELECT t FROM Team t LEFT JOIN FETCH t.players WHERE t.name = :name",
+                            Team.class)
                     .setParameter("name", name)
                     .getSingleResult();
         } catch (NoResultException e) {

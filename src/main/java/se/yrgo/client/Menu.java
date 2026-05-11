@@ -14,7 +14,9 @@ import se.yrgo.services.players.PlayerManagementService;
 import se.yrgo.services.teams.TeamManagementService;
 import se.yrgo.exceptions.InvalidPlayerException;
 
+import java.text.NumberFormat;
 import java.util.List;
+import java.util.Locale;
 import java.util.Scanner;
 
 @Component
@@ -278,8 +280,14 @@ public class Menu {
 
     private void addPlayersToTeamMenu(Team team) throws TeamNotFoundException, PlayerNotFoundException {
         while (true) {
+            team = teamService.getTeamByName(team.getName());
+
             header();
             System.out.println("Add players to " + team.getName());
+            System.out.println("Current salary: " + team.getFormattedTotalSalary() + " kr");
+            System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
+            System.out.println();
+
             System.out.println("[1] ADD EXISTING PLAYER");
             System.out.println("[2] CREATE NEW PLAYER AND ADD");
             System.out.println("[0] DONE");
@@ -295,9 +303,18 @@ public class Menu {
                     Player player = createPlayer();
 
                     if (player != null) {
-                        teamService.addPlayerToTeam(team.getName(), player.getPlayerId());
-                        System.out.println();
-                        System.out.println(player.getFullName() + " added to " + team.getName());
+                        try {
+                            teamService.addPlayerToTeam(team.getName(), player.getPlayerId());
+
+                            Team updatedTeam = teamService.getTeamByName(team.getName());
+
+                            System.out.println();
+                            System.out.println(player.getFullName() + " added to " + team.getName());
+                            System.out.println("Remaining budget: " + updatedTeam.getRemainingBudget());
+
+                        } catch (RuntimeException e) {
+                            System.out.println(e.getMessage());
+                        }
                     }
                 }
                 case "0" -> {
@@ -311,15 +328,40 @@ public class Menu {
     private void addExistingPlayerToTeam(Team team) {
         header();
 
-        viewPlayers();
-
-        System.out.print("Enter player id: ");
-        int playerId = Integer.parseInt(input.nextLine());
-
         try {
+            team = teamService.getTeamByName(team.getName());
+
+            System.out.println("Adding player to " + team.getName());
+            System.out.println("Current salary: " + team.getFormattedTotalSalary() + " kr");
+            System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
+            System.out.println();
+
+
+
+            viewPlayers();
+
+            System.out.print("Enter player id: ");
+            int playerId = Integer.parseInt(input.nextLine());
+
+            Player player = playerService.getPlayerById(playerId);
+
+            System.out.println();
+            System.out.println("Player salary: " + player.getSalary());
+
             teamService.addPlayerToTeam(team.getName(), playerId);
-            System.out.println("Player added to " + team.getName());
-        } catch (Exception e) {
+
+            Team updatedTeam = teamService.getTeamByName(team.getName());
+
+            System.out.println(player.getFullName() + " added to " + team.getName());
+            System.out.println("Remaining budget: " + updatedTeam.getRemainingBudget());
+
+        } catch (NumberFormatException e) {
+            System.out.println("You must enter a pucking number.");
+        } catch (PlayerNotFoundException e) {
+            System.out.println("Player not found.");
+        } catch (TeamNotFoundException e) {
+            System.out.println("Team not found.");
+        } catch (RuntimeException e) {
             System.out.println(e.getMessage());
         }
     }

@@ -2,8 +2,10 @@ package se.yrgo.domain;
 
 import jakarta.persistence.*;
 
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 @Entity
 public class Team {
@@ -25,6 +27,31 @@ public class Team {
             inverseJoinColumns = @JoinColumn(name = "PLAYER_ID")
     )
     private List<Player> players = new ArrayList<>();
+
+    public static final int MAX_TEAM_SALARY = 24_997_500;
+
+
+    public int getTotalSalary() {
+        return players.stream()
+                .mapToInt(Player::getSalary)
+                .sum();
+    }
+
+    public String getFormattedTotalSalary() {
+        return String.format("%,d", getTotalSalary());
+    }
+
+    public int getRemainingBudget() {
+        return MAX_TEAM_SALARY - getTotalSalary();
+    }
+
+    public String getFormattedRemainingBudget() {
+        return String.format("%,d", getRemainingBudget());
+    }
+
+    public boolean canAfford(Player player) {
+        return getTotalSalary() + player.getSalary() <= MAX_TEAM_SALARY;
+    }
 
     public Team() {}
 

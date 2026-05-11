@@ -17,7 +17,6 @@ import java.util.List;
 public class TeamManagementService {
 
     private static final int MAX_PLAYERS = 6;
-    private static final int MAX_TEAM_SALARY = 24_997_500;
 
     private final TeamDao teamDao;
     private final PlayerDao playerDao;
@@ -69,12 +68,11 @@ public class TeamManagementService {
             throw new RuntimeException("Team already has maximum 6 players");
         }
 
-        int totalSalary = players.stream()
-                .mapToInt(Player::getSalary)
-                .sum();
-
-        if (totalSalary + player.getSalary() > MAX_TEAM_SALARY) {
-            throw new RuntimeException("Salary cap exceeded");
+        if (!team.canAfford(player)) {
+            throw new RuntimeException("Salary cap exceeded. Remaining budget: "
+                    + team.getRemainingBudget()
+                    + ", player salary: "
+                    + player.getSalary());
         }
 
         long centers = count(players, Position.CENTER);
