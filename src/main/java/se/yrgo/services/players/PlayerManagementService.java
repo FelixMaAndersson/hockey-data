@@ -69,6 +69,7 @@ public class PlayerManagementService {
         player.setDiving(diving);
         player.setSwag(swag);
         player.setSnusing(snusing);
+        player.updateSalary();
 
         validatePlayer(player);
         dao.update(player);

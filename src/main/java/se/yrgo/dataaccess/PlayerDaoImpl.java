@@ -72,36 +72,4 @@ public class PlayerDaoImpl implements PlayerDao {
 
         em.remove(managedPlayer);
     }
-
-    @Override
-    public List<Player> getPlayersByPosition(Position position) {
-
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.position = :position",
-                        Player.class)
-                .setParameter("position", position)
-                .getResultList();
-    }
-
-    @Override
-    public List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary) {
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.salary BETWEEN :min AND :max",
-                        Player.class)
-                .setParameter("min", minSalary)
-                .setParameter("max", maxSalary)
-                .getResultList();
-    }
-
-
-    @Override
-    public List<Player> getPlayerByName(String name) {
-
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.fullName = :name",
-                        Player.class)
-                .setParameter("name", name)
-                .getResultList();
-    }
-
 }

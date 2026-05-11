@@ -16,10 +16,4 @@ public interface PlayerDao {
     void update(Player player) throws PlayerNotFoundException;
 
     void delete(Player player) throws PlayerNotFoundException;
-
-    List<Player> getPlayersByPosition(Position position);
-
-    List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary);
-
-    List<Player> getPlayerByName(String name);
 }

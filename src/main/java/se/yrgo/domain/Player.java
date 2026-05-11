@@ -153,6 +153,10 @@ public class Player {
         this.snusing = snusing;
     }
 
+    public void updateSalary() {
+        this.salary = (refereeHeckling + beerChugging + diving + swag + snusing) * 16500;
+    }
+
     @Override
     public String toString() {
         return "Player: " + this.getFullName();
