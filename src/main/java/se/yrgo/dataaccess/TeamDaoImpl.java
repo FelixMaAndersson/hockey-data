@@ -10,6 +10,10 @@ import se.yrgo.exceptions.TeamNotFoundException;
 
 import java.util.List;
 
+/**
+ * Implementation of the TeamDao interface using JPA. Provides methods for creating, retrieving, updating and deleting teams in the database.
+ */
+
 @Repository
 public class TeamDaoImpl implements TeamDao {
 
@@ -20,7 +24,7 @@ public class TeamDaoImpl implements TeamDao {
     public void create(Team team) {
         em.persist(team);
     }
-
+    // Method to retrieve a team by its ID, including its players. Throws TeamNotFoundException if no team with the given ID exists.
     @Override
     public Team getById(long teamId) throws TeamNotFoundException {
         try {
@@ -34,6 +38,7 @@ public class TeamDaoImpl implements TeamDao {
         }
     }
 
+    // Method to retrieve a team by its name, including its players. Throws TeamNotFoundException if no team with the given name exists.
     @Override
     public Team getByName(String name) throws TeamNotFoundException {
         try {
@@ -46,7 +51,7 @@ public class TeamDaoImpl implements TeamDao {
             throw new TeamNotFoundException(name);
         }
     }
-
+    // Method to update an existing team. Throws TeamNotFoundException if no team with the given ID exists.
     @Override
     public void update(Team team) throws TeamNotFoundException {
         if (em.find(Team.class, team.getId()) == null) {
@@ -54,7 +59,8 @@ public class TeamDaoImpl implements TeamDao {
         }
         em.merge(team);
     }
-
+    
+    // Method to delete a team. Throws TeamNotFoundException if no team with the given ID exists.
     @Override
     public void delete(Team team) throws TeamNotFoundException {
         Team managed = em.find(Team.class, team.getId());
@@ -63,7 +69,7 @@ public class TeamDaoImpl implements TeamDao {
         }
         em.remove(managed);
     }
-
+    // Method to retrieve all teams from the database, including their players.
     @Override
     public List<Team> getAllTeams() {
         return em.createQuery("SELECT t FROM Team t", Team.class)
