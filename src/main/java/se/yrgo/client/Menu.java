@@ -240,7 +240,7 @@ public class Menu {
 
             Player player = playerService.createPlayer(fullName, position, jerseyNr, refereeHeckling, beerChugging, diving, swag, snusing);
 
-            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
+            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getFormattedSalary() + " kr");
 
             return player;
 
@@ -343,14 +343,14 @@ public class Menu {
             Player player = playerService.getPlayerById(playerId);
 
             System.out.println();
-            System.out.println("Player salary: " + player.getSalary());
+            System.out.println("Player salary: " + player.getFormattedSalary() + " kr");
 
             teamService.addPlayerToTeam(team.getName(), playerId);
 
             Team updatedTeam = teamService.getTeamByName(team.getName());
 
             System.out.println(player.getFullName() + " added to " + team.getName());
-            System.out.println("Remaining budget: " + updatedTeam.getRemainingBudget());
+            System.out.println("Remaining budget: " + updatedTeam.getFormattedRemainingBudget() + " kr");
 
         } catch (NumberFormatException e) {
             System.out.println("You must enter a pucking number.");
