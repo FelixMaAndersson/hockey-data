@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import org.springframework.stereotype.Repository;
 import se.yrgo.domain.Player;
 import se.yrgo.domain.Position;
+import se.yrgo.domain.Team;
 import se.yrgo.exceptions.PlayerNotFoundException;
 
 import java.util.List;
@@ -53,45 +54,22 @@ public class PlayerDaoImpl implements PlayerDao {
 
     @Override
     public void delete(Player player) throws PlayerNotFoundException {
+        Player managedPlayer = em.find(Player.class, player.getPlayerId());
 
-        Player managed = em.find(Player.class, player.getPlayerId());
-
-        if (managed == null) {
+        if (managedPlayer == null) {
             throw new PlayerNotFoundException(player.getPlayerId());
         }
 
-        em.remove(managed);
-    }
-
-    @Override
-    public List<Player> getPlayersByPosition(Position position) {
-
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.position = :position",
-                        Player.class)
-                .setParameter("position", position)
+        List<Team> teams = em.createQuery(
+                        "SELECT t FROM Team t JOIN t.players p WHERE p.playerId = :playerId",
+                        Team.class)
+                .setParameter("playerId", managedPlayer.getPlayerId())
                 .getResultList();
+
+        for (Team team : teams) {
+            team.removePlayer(managedPlayer);
+        }
+
+        em.remove(managedPlayer);
     }
-
-    @Override
-    public List<Player> getPlayersBySalaryRange(int minSalary, int maxSalary) {
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.salary BETWEEN :min AND :max",
-                        Player.class)
-                .setParameter("min", minSalary)
-                .setParameter("max", maxSalary)
-                .getResultList();
-    }
-
-
-    @Override
-    public List<Player> getPlayerByName(String name) {
-
-        return em.createQuery(
-                        "SELECT p FROM Player p WHERE p.fullName = :name",
-                        Player.class)
-                .setParameter("name", name)
-                .getResultList();
-    }
-
 }

@@ -4,9 +4,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Entity
 public class Player {
@@ -19,7 +17,7 @@ public class Player {
     private String fullName;
 
     @ManyToMany(mappedBy = "players")
-    private List<Team> teams = new ArrayList<>();
+    private Set<Team> teams = new HashSet<>();
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
@@ -27,7 +25,7 @@ public class Player {
 
     @Column(nullable = false)
     @Min(1)
-    @Max(98)
+    @Max(99)
     private int jerseyNr;
 
     // stats / ratings
@@ -121,6 +119,11 @@ public class Player {
         return salary;
     }
 
+    public String getFormattedSalary() {
+        return String.format("%,d", getSalary());
+    }
+
+
     public void setFullName(String fullName) {
         this.fullName = fullName;
     }
@@ -151,6 +154,10 @@ public class Player {
 
     public void setSnusing(int snusing) {
         this.snusing = snusing;
+    }
+
+    public void updateSalary() {
+        this.salary = (refereeHeckling + beerChugging + diving + swag + snusing) * 16500;
     }
 
     @Override
