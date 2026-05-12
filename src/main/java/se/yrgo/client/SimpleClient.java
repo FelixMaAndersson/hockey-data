@@ -6,9 +6,12 @@ import se.yrgo.exceptions.LeagueNotFoundException;
 import se.yrgo.exceptions.PlayerNotFoundException;
 import se.yrgo.exceptions.TeamNotFoundException;
 
+import java.sql.*;
+
 
 public class SimpleClient {
     public static void main(String[] args) {
+
         try (ClassPathXmlApplicationContext container =
                      new ClassPathXmlApplicationContext("application.xml")) {
 

@@ -282,8 +282,7 @@ public class Menu {
 
             header();
             System.out.println("Add players to " + team.getName());
-            System.out.println("Current salary: " + team.getFormattedTotalSalary() + " kr");
-            System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
+            printTeamStatus(team);
             System.out.println();
 
             System.out.println("[1] ADD EXISTING PLAYER");
@@ -308,7 +307,7 @@ public class Menu {
 
                             System.out.println();
                             System.out.println(player.getFullName() + " added to " + team.getName());
-                            System.out.println("Remaining budget: " + updatedTeam.getRemainingBudget());
+                            System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
 
                         } catch (RuntimeException e) {
                             System.out.println(e.getMessage());
@@ -471,7 +470,7 @@ public class Menu {
                 case "0" -> {
                     return;
                 }
-                default -> System.out.println("Wrong choice, try again!");
+                default -> System.out.println("You stupid puck, try again!");
             }
         }
     }
@@ -717,7 +716,7 @@ public class Menu {
                     refereeHeckling, beerChugging, diving, swag, snusing);
 
             System.out.println("Player updated!");
-            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getSalary());
+            System.out.println("\nSay hi to: " + player.getFullName() + " with a salary of: " + player.getFormattedSalary() + " kr");
 
 
         } catch (NumberFormatException e) {
@@ -738,5 +737,13 @@ public class Menu {
         input.nextLine();
     }
 
+    private void printTeamStatus(Team team) {
+        System.out.println("Current salary: " + team.getFormattedTotalSalary() + " kr");
+        System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
+        System.out.println("Positions left:");
+        System.out.println("- Forwards: " + team.getRemainingForwards());
+        System.out.println("- Defenders: " + team.getRemainingDefenders());
+        System.out.println("- Goalies: " + team.getRemainingGoalies());
+    }
 
 }
