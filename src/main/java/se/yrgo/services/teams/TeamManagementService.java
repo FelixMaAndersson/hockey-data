@@ -59,6 +59,10 @@ public class TeamManagementService {
 
         Set<Player> players = team.getPlayers();
 
+        if (team.hasPlayer(player)) {
+            throw new RuntimeException(player.getFullName() + " is already in " + team.getName());
+        }
+
         if (!team.hasRoomFor(player)) {
             throw new RuntimeException(
                     "No room for another " + player.getPosition());

@@ -134,6 +134,10 @@ public class Team {
         return getRemainingForwards() > 0;
     }
 
+    public boolean hasPlayer(Player player) {
+        return players.contains(player);
+    }
+
     @Override
     public String toString() {
         return "Team: " + this.getName();

@@ -306,8 +306,8 @@ public class Menu {
                             Team updatedTeam = teamService.getTeamByName(team.getName());
 
                             System.out.println();
-                            System.out.println(player.getFullName() + " added to " + team.getName());
-                            System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
+                            System.out.println(player.getFullName() + " added to " + updatedTeam.getName());
+                            System.out.println("Remaining budget: " + updatedTeam.getFormattedRemainingBudget() + " kr");
 
                         } catch (RuntimeException e) {
                             System.out.println(e.getMessage());
