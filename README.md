@@ -50,4 +50,38 @@ The project implements the following JPA entity relationships:
 
 ---
 
+## How to Run
+
+### Required:
+- Java 21 or higher
+- Maven 3.6 or higher
+- Git
+
+Open a Unix-based terminal and run the following commands:
+
+```bash
+# Clone the repository
+git clone https://github.com/FelixMaAndersson/hockey-data.git
+
+# Navigate into the project folder
+cd hockey-data
+
+# Make the run script executable
+chmod u+x run.sh
+
+# Run the application
+./run.sh
+```
+
+### Windows
+
+```bat
+run.bat
+```
+
+---
+
+> **Note:** Make sure Java and Maven are installed and available in your PATH before running
+
 By: Gustav, Felix & Eric 
+ 

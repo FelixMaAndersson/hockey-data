@@ -334,8 +334,6 @@ public class Menu {
             System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
             System.out.println();
 
-
-
             viewPlayers();
 
             System.out.print("Enter player id: ");
