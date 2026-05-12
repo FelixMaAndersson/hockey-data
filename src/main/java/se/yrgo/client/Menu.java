@@ -17,6 +17,11 @@ import se.yrgo.exceptions.InvalidPlayerException;
 import java.util.List;
 import java.util.Scanner;
 
+/**
+ * Text-based console menu for the Strange Quality Hockey League (SQHL) application.
+ * Handles all user interaction and delegates operations to the appropriate service classes.
+ *
+ */
 @Component
 public class Menu {
 
@@ -25,7 +30,13 @@ public class Menu {
     private final TeamManagementService teamService;
     private final PlayerManagementService playerService;
 
-
+    /**
+     * Constructs a Menu with the required service classes.
+     *
+     * @param leagueService service for league operations
+     * @param teamService   service for team operations
+     * @param playerService service for player operations
+     */
     @Autowired
     public Menu(LeagueManagementService leagueService,
                 TeamManagementService teamService,
@@ -35,6 +46,9 @@ public class Menu {
         this.playerService = playerService;
     }
 
+    /**
+     * Prints the application header to the console.
+     */
     public void header() {
         System.out.println("-------------------------------------------");
         System.out.println("   Strange Quality Hockey League - SQHL   ");
@@ -42,6 +56,9 @@ public class Menu {
         System.out.println();
     }
 
+    /**
+     * Prints the main menu options to the console.
+     */
     public void startMenu() {
         System.out.println("[1] CREATE (League, Team, Player)");
         System.out.println("[2] VIEW (League, Team, Player)");
@@ -51,6 +68,14 @@ public class Menu {
         System.out.print("Your choice: ");
     }
 
+    /**
+     * Starts the main application loop.
+     * Listens for user input and navigates to the appropriate menu.
+     *
+     * @throws LeagueNotFoundException if a league operation fails
+     * @throws TeamNotFoundException   if a team operation fails
+     * @throws PlayerNotFoundException if a player operation fails
+     */
     public void start() throws LeagueNotFoundException, TeamNotFoundException, PlayerNotFoundException {
         header();
         System.out.println("Press [0] to EXIT\n");
@@ -81,6 +106,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays the create menu and handles creation of leagues, teams, and players.
+     *
+     * @throws TeamNotFoundException   if a team operation fails
+     * @throws PlayerNotFoundException if a player operation fails
+     */
     public void createMenu() throws TeamNotFoundException, PlayerNotFoundException {
 
         while (true) {
@@ -111,6 +142,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays the view menu and handles viewing of leagues, teams, and players.
+     */
     public void viewMenu() {
         while (true) {
             header();
@@ -140,6 +174,14 @@ public class Menu {
         }
     }
 
+    /**
+     * Handles the process of joining a league.
+     * Allows the user to choose or create a league and a team.
+     *
+     * @throws LeagueNotFoundException if the league is not found
+     * @throws TeamNotFoundException   if the team is not found
+     * @throws PlayerNotFoundException if a player operation fails
+     */
     public void joinLeague() throws LeagueNotFoundException, TeamNotFoundException, PlayerNotFoundException {
         League league = chooseOrCreateLeague();
 
@@ -159,6 +201,11 @@ public class Menu {
                 + " joined league " + league.getName());
     }
 
+    /**
+     * Prompts the user to either join an existing league or create a new one.
+     *
+     * @return the selected or newly created league, or null if the user goes back
+     */
     public League chooseOrCreateLeague() {
         while (true) {
             header();
@@ -184,6 +231,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Prompts the user to create a new league and saves it to the database.
+     *
+     * @return the created league
+     */
     public League createLeague() {
         header();
         System.out.print("Enter league name: ");
@@ -194,6 +246,13 @@ public class Menu {
         return league;
     }
 
+    /**
+     * Prompts the user to create a new team and optionally add players to it.
+     *
+     * @return the created team
+     * @throws TeamNotFoundException   if the team is not found during player assignment
+     * @throws PlayerNotFoundException if a player is not found during player assignment
+     */
     public Team createTeam() throws TeamNotFoundException, PlayerNotFoundException {
         header();
         System.out.print("Enter team name: ");
@@ -210,6 +269,12 @@ public class Menu {
         return team;
     }
 
+    /**
+     * Prompts the user to create a new player by entering all required attributes.
+     * Validates input and displays the created player's salary.
+     *
+     * @return the created player, or null if input was invalid
+     */
     public Player createPlayer() {
         header();
 
@@ -255,6 +320,10 @@ public class Menu {
         return null;
     }
 
+    /**
+     * Displays all registered players in the console.
+     * Shows player ID, name, position, and salary.
+     */
     public void viewPlayers() {
         header();
 
@@ -276,6 +345,14 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays a menu for adding players to a team.
+     * Allows the user to add existing players or create new ones.
+     *
+     * @param team the team to add players to
+     * @throws TeamNotFoundException   if the team is not found
+     * @throws PlayerNotFoundException if a player is not found
+     */
     private void addPlayersToTeamMenu(Team team) throws TeamNotFoundException, PlayerNotFoundException {
         while (true) {
             team = teamService.getTeamByName(team.getName());
@@ -322,6 +399,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Handles adding an existing player to a team.
+     * Displays available players and the team's current budget before adding.
+     *
+     * @param team the team to add the player to
+     */
     private void addExistingPlayerToTeam(Team team) {
         header();
 
@@ -361,6 +444,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays all registered teams in the console.
+     */
     public void viewTeams() {
         header();
 
@@ -375,6 +461,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays all registered leagues in the console.
+     */
     public void viewLeagues() {
         header();
 
@@ -389,6 +478,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Prompts the user to select an existing league by name.
+     *
+     * @return the selected league, or null if not found
+     */
     private League chooseExistingLeague() {
         header();
 
@@ -405,6 +499,13 @@ public class Menu {
         }
     }
 
+    /**
+     * Prompts the user to either use an existing team or create a new one.
+     *
+     * @return the selected or newly created team, or null if the user goes back
+     * @throws TeamNotFoundException   if the team is not found
+     * @throws PlayerNotFoundException if a player operation fails
+     */
     private Team chooseOrCreateTeam() throws TeamNotFoundException, PlayerNotFoundException {
         while (true) {
             header();
@@ -430,6 +531,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Prompts the user to select an existing team by name.
+     *
+     * @return the selected team, or null if not found
+     */
     private Team chooseExistingTeam() {
         header();
 
@@ -446,6 +552,12 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays the edit menu and navigates to edit or remove options
+     * for leagues, teams, and players.
+     *
+     * @throws LeagueNotFoundException if a league operation fails
+     */
     public void editMenu() throws LeagueNotFoundException {
         while (true) {
             header();
@@ -475,6 +587,11 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays a sub-menu for editing or removing a league.
+     *
+     * @throws LeagueNotFoundException if the league is not found
+     */
     public void editOrRemoveLeague() throws LeagueNotFoundException {
         while (true) {
             header();
@@ -496,6 +613,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays a sub-menu for editing or removing a team.
+     */
     public void editOrRemoveTeam() {
         while (true) {
             header();
@@ -517,6 +637,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Displays a sub-menu for editing or removing a player.
+     */
     public void editOrRemovePlayer() {
         while (true) {
             header();
@@ -538,6 +661,9 @@ public class Menu {
         }
     }
 
+    /**
+     * Prompts the user to remove a league by name.
+     */
     public void removeLeague() {
         header();
 
@@ -562,6 +688,9 @@ public class Menu {
         pressEnterToContinue();
     }
 
+    /**
+     * Prompts the user to remove a team by name.
+     */
     public void removeTeam() {
         header();
 
@@ -588,6 +717,9 @@ public class Menu {
         pressEnterToContinue();
     }
 
+    /**
+     * Prompts the user to remove a player by ID.
+     */
     public void removePlayer() {
         header();
 
@@ -615,7 +747,11 @@ public class Menu {
         pressEnterToContinue();
     }
 
-
+    /**
+     * Prompts the user to edit the name of an existing league.
+     *
+     * @throws LeagueNotFoundException if the league is not found
+     */
     public void editLeague() throws LeagueNotFoundException {
         header();
 
@@ -643,6 +779,9 @@ public class Menu {
         pressEnterToContinue();
     }
 
+    /**
+     * Prompts the user to edit the name of an existing team.
+     */
     public void editTeam() {
         header();
 
@@ -671,6 +810,10 @@ public class Menu {
         pressEnterToContinue();
     }
 
+    /**
+     * Prompts the user to edit an existing player's attributes.
+     * Validates input and displays the updated player's salary.
+     */
     public void editPlayer() {
         header();
 
@@ -732,11 +875,20 @@ public class Menu {
         pressEnterToContinue();
     }
 
+    /**
+     * Waits for the user to press ENTER before continuing.
+     */
     public void pressEnterToContinue() {
         System.out.println("\nPress ENTER to continue...");
         input.nextLine();
     }
 
+    /**
+     * Prints the current status of a team including salary, remaining budget,
+     * and available positions.
+     *
+     * @param team the team to print status for
+     */
     private void printTeamStatus(Team team) {
         System.out.println("Current salary: " + team.getFormattedTotalSalary() + " kr");
         System.out.println("Remaining budget: " + team.getFormattedRemainingBudget() + " kr");
