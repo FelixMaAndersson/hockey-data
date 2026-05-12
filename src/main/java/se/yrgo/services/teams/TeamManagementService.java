@@ -12,6 +12,11 @@ import se.yrgo.exceptions.PlayerNotFoundException;
 import java.util.List;
 import java.util.Set;
 
+/**
+ * Service class for managing teams. Provides methods for creating, retrieving, updating and deleting teams,
+ * as well as adding players to teams while enforcing business rules such as salary cap and maximum number of players.
+ */
+
 @Service
 @Transactional
 public class TeamManagementService {
@@ -38,6 +43,7 @@ public class TeamManagementService {
         return team;
     }
 
+    // UPDATE
     @Transactional
     public void updateTeamName(String oldName, String newName) throws TeamNotFoundException {
         Team team = teamDao.getByName(oldName);
@@ -50,7 +56,7 @@ public class TeamManagementService {
         teamDao.delete(team);
     }
 
-    // ADD PLAYER (NU MED TEAM NAME IN I STÄLLET)
+    // ADD PLAYER TO TEAM
     public void addPlayerToTeam(String teamName, int playerId)
             throws TeamNotFoundException, PlayerNotFoundException {
 
