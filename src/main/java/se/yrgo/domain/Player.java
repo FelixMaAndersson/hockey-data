@@ -6,6 +6,14 @@ import jakarta.validation.constraints.Min;
 
 import java.util.*;
 
+/**
+ * Represents a hockey player in the SQHL system.
+ * <p>
+ * A player can belong to multiple fantasy teams and contains
+ * both hockey information and custom SQHL rating statistics.
+ * <p>
+ * Salary is calculated from the player's combined ratings.
+ */
 @Entity
 public class Player {
 
@@ -16,6 +24,8 @@ public class Player {
     @Column(nullable = false, length = 50)
     private String fullName;
 
+    // A player can belong to multiple teams,
+    // but cannot exist multiple times in the same team.
     @ManyToMany(mappedBy = "players")
     private Set<Team> teams = new HashSet<>();
 
@@ -28,7 +38,6 @@ public class Player {
     @Max(99)
     private int jerseyNr;
 
-    // stats / ratings
     @Column(nullable = false)
     @Min(1)
     @Max(100)
@@ -73,10 +82,10 @@ public class Player {
         this.swag = swag;
         this.snusing = snusing;
         this.salary = (refereeHeckling
-        + beerChugging
-        + diving
-        + swag
-        +snusing) * 16500;
+                + beerChugging
+                + diving
+                + swag
+                + snusing) * 16500;
     }
 
     public int getPlayerId() {
@@ -156,6 +165,9 @@ public class Player {
         this.snusing = snusing;
     }
 
+    /**
+     * Recalculates the player's salary based on all ratings.
+     */
     public void updateSalary() {
         this.salary = (refereeHeckling + beerChugging + diving + swag + snusing) * 16500;
     }

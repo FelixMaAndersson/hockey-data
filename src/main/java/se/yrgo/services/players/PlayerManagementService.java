@@ -12,6 +12,14 @@ import se.yrgo.exceptions.PlayerNotFoundException;
 import java.util.List;
 import java.util.Objects;
 
+/**
+ * Service class for player-related business logic.
+ *
+ * This class handles creating, updating, retrieving and deleting players.
+ * It also validates player data before it is saved or updated.
+ *
+ * Database operations are delegated to PlayerDao.
+ */
 @Service
 public class PlayerManagementService {
 
@@ -69,9 +77,9 @@ public class PlayerManagementService {
         player.setDiving(diving);
         player.setSwag(swag);
         player.setSnusing(snusing);
-        player.updateSalary();
 
         validatePlayer(player);
+        player.updateSalary();
         dao.update(player);
     }
 
@@ -82,6 +90,10 @@ public class PlayerManagementService {
     }
 
 
+    /**
+     * Validates jersey numbers.
+     * Number 99 is only allowed for Wayne Gretzky.
+     */
     private void validateJerseyNumber(int jerseyNr, String fullName) {
 
         if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {
@@ -101,6 +113,9 @@ public class PlayerManagementService {
         }
     }
 
+    /**
+     * Validates that jersey number and player ratings follow the SQHL rules.
+     */
     private void validatePlayer(Player player) {
         validateJerseyNumber(player.getJerseyNr(), player.getFullName());
 
