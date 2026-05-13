@@ -98,10 +98,10 @@ public class PlayerManagementService {
 
         if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {
             throw new InvalidPlayerException(
-                    "Who do you think you are?! You're not Wayne Gretzky");
+                    "Who do you think you are?! You're not Wayne Gretzky. No player was created");
         } else if (jerseyNr < 1 || jerseyNr > 99) {
             throw new InvalidPlayerException(
-                    "Jersey number must be between 1 and 99");
+                    "Jersey number must be between 1 and 99. No player was created");
         }
     }
 
