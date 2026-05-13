@@ -32,9 +32,9 @@ public class PlayerManagementService {
 
     @Transactional
     public Player createPlayer(String fullName,
-                             Position position, int jerseyNr,
-                             int refereeHeckling, int beerChugging,
-                             int diving, int swag, int snusing) {
+                               Position position, int jerseyNr,
+                               int refereeHeckling, int beerChugging,
+                               int diving, int swag, int snusing) {
 
         Player player = new Player(
                 fullName,
@@ -91,39 +91,44 @@ public class PlayerManagementService {
 
 
     /**
-     * Validates jersey numbers.
-     * Number 99 is only allowed for Wayne Gretzky.
-     */
-    private void validateJerseyNumber(int jerseyNr, String fullName) {
-
-        if (jerseyNr == 99 && !Objects.equals(fullName, "Wayne Gretzky")) {
-            throw new InvalidPlayerException(
-                    "Who do you think you are?! You're not Wayne Gretzky. No player was created");
-        } else if (jerseyNr < 1 || jerseyNr > 99) {
-            throw new InvalidPlayerException(
-                    "Jersey number must be between 1 and 99. No player was created");
-        }
-    }
-
-    private void validateRating(int rating, String statName) {
-
-        if (rating < 1 || rating > 100) {
-            throw new InvalidPlayerException(
-                    statName + " must be between 1 and 100. No player was created");
-        }
-    }
-
-    /**
-     * Validates that jersey number and player ratings follow the SQHL rules.
+     * validates that name, jersey number and stats follow SQL rules
+     * @param player
      */
     private void validatePlayer(Player player) {
-        validateJerseyNumber(player.getJerseyNr(), player.getFullName());
+        StringBuilder errors = new StringBuilder();
 
-        validateRating(player.getRefereeHeckling(), "Referee heckling");
-        validateRating(player.getBeerChugging(), "Beer chugging");
-        validateRating(player.getDiving(), "Diving");
-        validateRating(player.getSwag(), "Swag");
-        validateRating(player.getSnusing(), "Snusing");
+        if (player.getFullName() == null || player.getFullName().isBlank()) {
+            errors.append("The player must have a name.\n");
+        }
+
+        if (player.getJerseyNr() == 99 && !Objects.equals(player.getFullName(), "Wayne Gretzky")) {
+            errors.append("Who do you think you are?! You're not Wayne Gretzky.\n");
+        } else if (player.getJerseyNr() < 1 || player.getJerseyNr() > 99) {
+            errors.append("Jersey number must be between 1 and 99.\n");
+        }
+
+        if (player.getRefereeHeckling() < 1 || player.getRefereeHeckling() > 100) {
+            errors.append("Referee heckling must be between 1 and 100.\n");
+        }
+
+        if (player.getBeerChugging() < 1 || player.getBeerChugging() > 100) {
+            errors.append("Beer chugging must be between 1 and 100.\n");
+        }
+
+        if (player.getDiving() < 1 || player.getDiving() > 100) {
+            errors.append("Diving must be between 1 and 100.\n");
+        }
+
+        if (player.getSwag() < 1 || player.getSwag() > 100) {
+            errors.append("Swag must be between 1 and 100.\n");
+        }
+
+        if (player.getSnusing() < 1 || player.getSnusing() > 100) {
+            errors.append("Snusing must be between 1 and 100.\n");
+        }
+
+        if (!errors.isEmpty()) {
+            throw new InvalidPlayerException(errors + "No player was created");
+        }
     }
-
 }
