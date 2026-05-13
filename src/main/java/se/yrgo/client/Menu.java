@@ -319,7 +319,7 @@ public class Menu {
                     + " - "
                     + player.getPosition()
                     + " - salary: "
-                    + player.getSalary());
+                    + player.getFormattedSalary());
         }
     }
 
