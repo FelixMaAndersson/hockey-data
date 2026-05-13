@@ -722,7 +722,7 @@ public class Menu {
      *
      * @throws LeagueNotFoundException if the league is not found
      */
-    public void editLeague() throws LeagueNotFoundException {
+    public void editLeague() {
         header();
 
         if (leagueService.getAllLeagues().isEmpty()) {

@@ -109,7 +109,7 @@ public class PlayerManagementService {
 
         if (rating < 1 || rating > 100) {
             throw new InvalidPlayerException(
-                    statName + " must be between 1 and 100");
+                    statName + " must be between 1 and 100. No player was created");
         }
     }
 
