@@ -62,8 +62,8 @@ public class Menu {
     public void startMenu() {
         System.out.println("[1] CREATE (League, Team, Player)");
         System.out.println("[2] VIEW (League, Team, Player)");
-        System.out.println("[3] JOIN LEAGUE");
-        System.out.println("[4] EDIT (League, Team, Player)");
+        System.out.println("[3] EDIT (League, Team, Player)");
+        System.out.println("[4] JOIN LEAGUE");
         System.out.println("[0] EXIT");
         System.out.print("Your choice: ");
     }
@@ -85,22 +85,12 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    createMenu();
-                }
-                case "2" -> {
-                    viewMenu();
-                }
-                case "3" -> {
-                    joinLeague();
-                }
-                case "4" -> {
-                    editMenu();
-                }
+                case "1" -> createMenu();
+                case "2" -> viewMenu();
+                case "3" -> editMenu();
+                case "4" -> joinLeague();
                 case "0" -> System.exit(0);
-                default -> {
-                    System.out.println("You dumb puck, wrong choice, try again!");
-                }
+                default -> System.out.println("You dumb puck, wrong choice, try again!");
             }
             System.out.println();
         }
@@ -125,15 +115,9 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    createLeague();
-                }
-                case "2" -> {
-                    createTeam();
-                }
-                case "3" -> {
-                    createPlayer();
-                }
+                case "1" -> createLeague();
+                case "2" -> createTeam();
+                case "3" -> createPlayer();
                 case "0" -> {
                     return;
                 }
@@ -157,15 +141,9 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    viewLeagues();
-                }
-                case "2" -> {
-                    viewTeams();
-                }
-                case "3" -> {
-                    viewPlayers();
-                }
+                case "1" -> viewLeagues();
+                case "2" -> viewTeams();
+                case "3" -> viewPlayers();
                 case "0" -> {
                     return;
                 }
@@ -370,9 +348,7 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    addExistingPlayerToTeam(team);
-                }
+                case "1" -> addExistingPlayerToTeam(team);
                 case "2" -> {
                     Player player = createPlayer();
 
@@ -570,15 +546,9 @@ public class Menu {
             String choice = input.nextLine();
 
             switch (choice) {
-                case "1" -> {
-                    editOrRemoveLeague();
-                }
-                case "2" -> {
-                    editOrRemoveTeam();
-                }
-                case "3" -> {
-                    editOrRemovePlayer();
-                }
+                case "1" -> editOrRemoveLeague();
+                case "2" -> editOrRemoveTeam();
+                case "3" -> editOrRemovePlayer();
                 case "0" -> {
                     return;
                 }
