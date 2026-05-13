@@ -102,7 +102,7 @@ public class PlayerManagementService {
         }
 
         if (player.getJerseyNr() == 99 && !Objects.equals(player.getFullName(), "Wayne Gretzky")) {
-            errors.append("Who do you think you are?! You're not Wayne Gretzky.\n");
+            errors.append("Who do you think you are choosing nr 99?! You're not Wayne Gretzky.\n");
         } else if (player.getJerseyNr() < 1 || player.getJerseyNr() > 99) {
             errors.append("Jersey number must be between 1 and 99.\n");
         }

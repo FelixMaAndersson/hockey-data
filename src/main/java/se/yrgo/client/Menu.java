@@ -269,7 +269,7 @@ public class Menu {
             System.out.print("How good your player is at heckling the referee (1-100): ");
             int refereeHeckling = Integer.parseInt(input.nextLine());
 
-            System.out.print("How much of a beer chugging king your player is (1-100): ");
+            System.out.print("How much of a beer league king your player is (1-100): ");
             int beerChugging = Integer.parseInt(input.nextLine());
 
             System.out.print("How good of an actor your player is (1-100): ");
@@ -278,7 +278,7 @@ public class Menu {
             System.out.print("The swag factor (1-100): ");
             int swag = Integer.parseInt(input.nextLine());
 
-            System.out.print("How much ettans lös our player can shove under the lip (1-100): ");
+            System.out.print("How much ettans lös your player can carry under the lip (1-100): ");
             int snusing = Integer.parseInt(input.nextLine());
 
             Player player = playerService.createPlayer(fullName, position, jerseyNr, refereeHeckling, beerChugging, diving, swag, snusing);
