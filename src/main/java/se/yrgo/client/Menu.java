@@ -46,6 +46,7 @@ public class Menu {
         this.playerService = playerService;
     }
 
+
     /**
      * Prints the application header to the console.
      */
@@ -77,10 +78,11 @@ public class Menu {
      * @throws PlayerNotFoundException if a player operation fails
      */
     public void start() throws LeagueNotFoundException, TeamNotFoundException, PlayerNotFoundException {
-        header();
-        System.out.println("Press [0] to EXIT\n");
+
 
         while (true) {
+            clearScreen();
+            header();
             startMenu();
             String choice = input.nextLine();
 
@@ -103,6 +105,7 @@ public class Menu {
      * @throws PlayerNotFoundException if a player operation fails
      */
     public void createMenu() throws TeamNotFoundException, PlayerNotFoundException {
+
 
         while (true) {
             header();
@@ -866,6 +869,11 @@ public class Menu {
         System.out.println("- Forwards: " + team.getRemainingForwards());
         System.out.println("- Defenders: " + team.getRemainingDefenders());
         System.out.println("- Goalies: " + team.getRemainingGoalies());
+    }
+
+    private void clearScreen() {
+        System.out.print("\033[H\033[2J");
+        System.out.flush();
     }
 
 }
