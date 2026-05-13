@@ -272,7 +272,7 @@ public class Menu {
             System.out.print("How good your player is at heckling the referee (1-100): ");
             int refereeHeckling = Integer.parseInt(input.nextLine());
 
-            System.out.print("How much of a beer league king your player is (1-100): ");
+            System.out.print("How much of a beer chugging king your player is (1-100): ");
             int beerChugging = Integer.parseInt(input.nextLine());
 
             System.out.print("How good of an actor your player is (1-100): ");
